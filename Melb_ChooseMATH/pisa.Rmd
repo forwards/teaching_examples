@@ -1,0 +1,48 @@
+---
+title: "Explore our PISA standarised scores"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    social: menu
+    source_code: embed
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(ggplot2)
+library(plotly)
+load("pisa_au.rda")
+dataset <- pisa_au
+catvars <- c("state", "schtype", "yr", "birthmonth", "gender")
+realvars <- c("math", "science", "read")
+```
+
+Inputs {.sidebar}
+-----------------------------------------------------------------------
+
+```{r}
+selectInput('x', 'X', catvars)
+selectInput('y', 'Y', realvars)
+selectInput('color', 'Color', c('None', catvars))
+```
+
+Outputs
+-----------------------------------------------------------------------
+
+### Plots
+
+```{r}
+dataset <- reactive({
+  pisa_au
+})
+
+renderPlot({
+  p <- ggplot(dataset(), aes_string(x=input$x, y=input$y)) + geom_boxplot()
+  
+  if (input$color != 'None')
+    p <- p + aes_string(fill=input$color)
+
+  print(p)
+})
+```
