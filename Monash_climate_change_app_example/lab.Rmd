@@ -1,0 +1,173 @@
+---
+title: "MBDD BA Lab exercise"
+author: "Prof Di Cook, with Stephanie Kobakian, Stuart Lee, Mitch O'Hara-Wild"
+date: "Econometrics & Bus Stat, Monash, Clayton campus, 20/4/2017"
+output:
+  tufte::tufte_html: default
+  tufte::tufte_handout:
+    citation_package: natbib
+    latex_engine: xelatex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Motivation
+
+We hear a lot about climate change, in the news, at school, ... One aspect of concern is sea level rise as the ice caps melt.  We hear that islands like Tuvalu will be under water completely by the time you reach middle age. We would like to see how Melbourne will fare if the sea levels rise. 
+
+### Exercise 1
+
+1. This question needs to be answered by googling for information. What is the expected sea level rise by the end of the 21st century?
+
+## Our coastlines
+
+The Australian company NGIS provides a web interface for exploring the coastlines around Australia for risk of sea level rise. You can play around with Melbourne by visiting this  site [http://coastalrisk.com.au](http://coastalrisk.com.au). Enter `Melbourne` as the site, then select `Manual` so you can change the prospective sea levels. Sea level rise can be changed between 0-10m, and you can zoom around the map. 
+
+### Exercise 2
+
+1. At what sea level does Port Melbourne go completely under?
+2. Name a few suburbs that are most at risk?
+
+## Goal 
+
+The purpose of this lab is to find data, pull it, clean it, model it, visualise it and build a web app of our own.
+
+## Data
+
+[Geoscience Australia](http://www.ga.gov.au) provides a lot, that is a lot, of resources on its web site. We can pull elevation details for different locations around Australia. From the elevation, we can estimate what parts of the coastline are at risk of going under if sea levels rise. 
+
+### Exercise 3
+
+You are going to download elevation data for a small part of Melbourne, read it into R, clean it, make it into a data frame, and plot the elevation on a map.
+
+1. Go to the web site [http://www.ga.gov.au/elvis/](http://www.ga.gov.au/elvis/). Enter `Melbourne` as the location. Zoom into your favourite location. Choose to download a `25 metre Digital Elevation Model (DEM)`. It will ask for you to draw on the map to select a chunk. Select a small chunk. Select the output format to be `Esri ASCII Grid`, and the coordinate system to be `WGS84 Lat/Longs`. The server will create a data set for you, and send you an email - you will need to enter an email address where you can receive the link to the data. Once you've got this, and downloaded the data file, unzip the file on to your computer, just the Desktop is good, and you'll be ready to move onto the next step.
+2. Start RStudio, and create a `Project` in the directory that was created when the data was unzip'd. 
+3. Read in the `your data file name.asc` file with this code :
+
+```{marginfigure}
+Hint: You don't need to type all this code out. If you open the `lab.Rmd` file in the R editor window, you can cut and past the code into a new document to edit and run.
+```
+
+```{r eval=FALSE}
+myfile <- "replace this with your data file name.asc"
+nc <- as.numeric(scan(myfile, nlines=1, 
+                      what=character())[2])
+nr <- as.numeric(scan(myfile, skip=1, nlines=1,
+                      what=character())[2])
+xlc <- as.numeric(scan(myfile, skip=2, nlines=1,
+                       what=character())[2])
+ylc <- as.numeric(scan(myfile, skip=3, nlines=1,
+                       what=character())[2])
+cs <- as.numeric(scan(myfile, skip=4, nlines=1,
+                      what=character())[2])
+w <- scan(myfile, skip=6)
+w_df <- data.frame(
+  lon=(rep(1:nc, nr)-1)/nc*(nc*cs)+xlc,
+  lat=(rep(1:nr, rep(nc, nr))-1)/nr*(-nr*cs)+(ylc+nr*cs),
+  elev=w)
+summary(w_df)
+```
+4. Discuss with your group what
+ the code `x=(rep(1:nc, nr)-1)/nc*(nc*cs)+xlc` does, and why we created a variable `lon`. Write a sentence explaining this.
+5. Report the median of the three variables, `lon`, `lat`, `elev`.
+6. Last step is to plot the elevation data on a map. You need to grab a google map first. This code will find the limits of your data, grab the map, plot it and overlay the elevation on it. (The result should look something like the map above on the right.)
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, error=FALSE, fig.margin=TRUE, fig.width=3.5, fig.height=3.5, cache=TRUE}
+library(tidyverse)
+library(ggmap)
+library(viridis)
+library(ggthemes)
+load("sea_level/melb_all.rda")
+loc <- c(144.9639, -37.81521)
+m <- get_map(loc, zoom=13, scale=1, color="bw")
+bb <- attr(m, "bb")
+m_e_sub <- m_e %>%
+  filter(lon > bb$ll.lon,
+          lon < bb$ur.lon,
+          lat > bb$ll.lat,
+          lat < bb$ur.lat)
+p <- ggmap(m)
+p + geom_tile(data=m_e_sub,
+           aes(x=lon, y=lat, fill=elev), alpha=0.3) +
+         scale_fill_viridis("Elevation") +
+         theme_map() + theme(legend.position=c(1,0))
+p + geom_contour(data=m_e_sub,
+   aes(x=lon, y=lat, z=elev, colour=..level..), size=1, bins=5) +
+         scale_colour_gradientn("Elevation", colours=viridis(10)) +
+  theme_map() + theme(legend.position=c(1,0))
+```
+
+
+```{r eval=FALSE}
+library(dplyr)
+library(ggmap)
+loc <- c(median(w_df$lon), median(w_df$lat))
+m <- get_map(loc, zoom=15, scale=1, color="bw")
+p <- ggmap(m)
+p + geom_tile(data=w_df,
+           aes(x=lon, y=lat, fill=elev), alpha=0.5) +
+           scale_fill_viridis() +
+           theme_map() 
+```
+
+It is also possible to show the elevation as a contour map instead of tiled, with this code below, which would make a map that looks like the plot at right.
+
+```{r eval=FALSE}
+p + geom_contour(data=w_df, aes(x=lon, y=lat, z=elev,
+                colour=..level..), size=1, bins=5) +
+  scale_colour_gradientn("Elevation", colours=viridis(10)) + 
+  theme_map()
+```
+## Elevation
+
+The distribution of elevation in any area will affect how much of it is at flood risk. We can look at the distribution but making a histogram or a density plot. 
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, error=FALSE, fig.margin=TRUE, fig.width=3.5, fig.height=3.5, cache=TRUE}
+ggplot(data=m_e_sub, aes(x=elev)) + geom_histogram(binwidth=5) +
+  xlab("Elevation") + ylab("Count")
+```
+
+### Exercise 4
+
+1. With your group work out how to use elevation to compute the proportion of the area that would be under water if sea level was 0, 1, 2, ...
+2. Write an R function to do this calculation.
+
+## Geolocating
+
+With Google's API you can look up post code for any given longitude and latitude. Conversely, for any given address you can look up longitude and latitude. This is used for the app below, to allow users to find their suburb, and explore the coastline. Here's the code to do this:
+
+```{r}
+library(ggmap)
+get_lonlat <- function(pc) {
+  loc <- geocode(paste0("Vic, ", pc))
+  return(loc)
+}
+get_lonlat("3000")
+```
+
+
+## Web app
+
+Now the fun begins. You are going to write your first shiny app^[The full reference site is (http://shiny.rstudio.com/tutorial/)]. 
+
+### Exercise 5
+
+1. The file `app.r` in the `sea_level` directory has the code for a basic app on this data. Open this file in your editor window.
+2. Click `Run App` to run it locally on your computer. Play with the controls. You can enter a post code to focus on your choise of neighbourhood, and also change sea levels. 
+3. There are two main functions in the app: `ui` and `server`. The `ui` sets up the user interaction, the text entry for the post code, and the slider for sea level. There are many different choices of input tools that could be used. The `server` function is the work-horse, running the computations. 
+4. You are going to make a couple of small changes to the code get comfortable. 
+  a. Change the background map to be black and white instead of colour.
+  b. Change the `tile` to a `contour display`.
+  c. Add a slider to change the `zoom` parameter of the `get_map()` function.
+5. Your turn to make the app the best it can be. Brainstorm ideas to make a better app. Explore how to make the changes in the code to implement the ideas, and make the changes.^[Do this in small steps so that you can debug your code.]
+
+Finally, if you are happy with sharing your app, sign up for a *FREE* account at [http://www.shinyapps.io](http://www.shinyapps.io), and upload it. You'll be able ot show your friends and parents.
+
+## Turn in
+
+Each group needs to provide to the instructor:
+
+1. A document with their answers to each of the questions
+2. A copy of your app code, and any new data required to run it
