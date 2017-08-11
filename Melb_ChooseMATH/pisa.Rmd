@@ -38,7 +38,7 @@ dataset <- reactive({
 })
 
 renderPlot({
-  p <- ggplot(dataset(), aes_string(x=input$x, y=input$y)) + geom_boxplot()
+  p <- ggplot(pisa_au, aes_string(x=input$x, y=input$y)) + geom_boxplot()
   
   if (input$color != 'None')
     p <- p + aes_string(fill=input$color)
