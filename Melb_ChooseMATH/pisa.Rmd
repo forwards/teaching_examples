@@ -1,5 +1,5 @@
 ---
-title: "Explore our PISA standarised scores"
+title: "Explore our PISA standardised scores"
 output: 
   flexdashboard::flex_dashboard:
     orientation: columns
@@ -10,8 +10,10 @@ runtime: shiny
 
 ```{r setup, include=FALSE}
 library(flexdashboard)
-library(ggplot2)
+library(tidyverse)
+library(forcats)
 library(plotly)
+library(ggthemes)
 load("pisa_au.rda")
 dataset <- pisa_au
 catvars <- c("state", "schtype", "yr", "birthmonth", "gender")
@@ -37,12 +39,13 @@ dataset <- reactive({
   pisa_au
 })
 
-renderPlot({
+renderPlotly({
   p <- ggplot(pisa_au, aes_string(x=input$x, y=input$y)) + geom_boxplot()
   
   if (input$color != 'None')
     p <- p + aes_string(fill=input$color)
 
-  print(p)
+  #print(p)
+  ggplotly(p)
 })
 ```
