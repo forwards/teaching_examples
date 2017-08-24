@@ -59,6 +59,25 @@ R is a scripting language, which means that it is just like writing an essay, or
 
 *R is like a big calculator! Try doing other math operations, like subtraction, multiplication, division, or square root and power operations.*
 
+## Quiz
+
+```{r quiz}
+quiz(
+  question("Which symbol/operator is used to indicate raising a number to a power?",
+    answer("`+`"),
+    answer("`/`"),
+    answer("`^`", correct = TRUE),
+    answer("`%`")
+  ),
+  question("If you want to find the remainder of 5 divided by 2, which operator is used?",
+    answer("`%%`", correct = TRUE),
+    answer("`%/%`"),
+    answer("`|`"),
+    answer("`*`")
+    )
+)
+```
+
 ## Simulation
 
 Let's pretend that we are math teachers and we've just given the class a test. R can be used to simulate results like this. 
@@ -73,6 +92,24 @@ Let's pretend that we are math teachers and we've just given the class a test. R
 
 ```
 
-Oh, nothing happens. Let's check if we have created a dataset. You can check the length of scores using `length(scores)`. It should be 35. You can also compute the mean and standard deviation of the data using `mean(scores)` and `sd(scores)`
+Oh, nothing happens! That is because we have saved the result into a data object. Let's check if we have created a dataset. You can check the length of scores using `length(scores)`. It should be 35. You can also compute the mean and standard deviation of the data using `mean(scores)` and `sd(scores)`
 
+## Functions
 
+In math, we use functions all the time. Functions have inputs and outputs, e.g. f(x) = 3*x
+
+R can be considered to be a functional language. These are functions that we have just used, `rnorm(), mean(), sd()`. 
+
+## Data frames, Tibbles, matrices, vectors
+
+## Tidy data verbs
+
+## Wrangling verbs
+
+## Grammar of graphics
+
+## PISA data
+
+## Building a web story with interactive graphics
+
+## Goal for the day
