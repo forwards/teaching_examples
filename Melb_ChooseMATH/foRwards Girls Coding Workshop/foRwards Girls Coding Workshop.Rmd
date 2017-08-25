@@ -1,12 +1,15 @@
 ---
 title: "Tutorial"
-output: learnr::tutorial
+output: 
+  learnr::tutorial:
+    css: "css/logo.css"
 runtime: shiny_prerendered
 ---
 
 ```{r setup, include=FALSE}
 library(learnr)
 knitr::opts_chunk$set(echo = FALSE)
+tutorial_html_dependency()
 ```
 
 
