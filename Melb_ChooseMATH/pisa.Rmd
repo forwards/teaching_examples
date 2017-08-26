@@ -15,37 +15,63 @@ library(forcats)
 library(plotly)
 library(ggthemes)
 load("pisa_au.rda")
-dataset <- pisa_au
 catvars <- c("state", "schtype", "yr", "birthmonth", "gender")
 realvars <- c("math", "science", "read")
 ```
 
-Inputs {.sidebar}
+
+Outputs {.tabset .tabset-fade}
 -----------------------------------------------------------------------
 
-```{r}
-selectInput('x', 'X', catvars)
-selectInput('y', 'Y', realvars)
-selectInput('color', 'Color', c('None', catvars))
-```
-
-Outputs
------------------------------------------------------------------------
-
-### Plots
+### Boxplots
 
 ```{r}
-dataset <- reactive({
-  pisa_au
-})
+fillRow(height = 600, flex = c(2, 4),
+  sidebarPanel(
+      selectInput('x', 'X', catvars),
+      selectInput('y', 'Y', realvars),
+      selectInput('color', 'Color', c('None', catvars)),
+      width = 10
+  ),
+  plotlyOutput("boxplots", height = "100%")
+)
 
-renderPlotly({
-  p <- ggplot(pisa_au, aes_string(x=input$x, y=input$y)) + geom_boxplot()
+output$boxplots <- renderPlotly({
+  p1 <- ggplot(pisa_au, aes_string(x = input$x, y = input$y)) +
+    geom_boxplot()
   
   if (input$color != 'None')
-    p <- p + aes_string(fill=input$color)
+    p1 <- p1 + aes_string(fill = input$color)
 
-  #print(p)
-  ggplotly(p)
+  ggplotly(p1) %>% 
+    layout(boxmode = "group", legend = list(x = 0, y = 0, orientation = 'h'))
 })
 ```
+
+### Scatterplot
+
+```{r}
+fillRow(height = 600, flex = c(2, 4),
+  sidebarPanel(
+      selectInput('x2', 'X', realvars, "read"),
+      selectInput('y2', 'Y', realvars, "math"),
+      selectInput('color2', 'Color', c('None', catvars)),
+      sliderInput('alpha', 'Alpha', 0, 1, 1, 0.05),
+      width = 10
+  ),
+  plotlyOutput("scatterplot", height = "100%")
+)
+
+output$scatterplot <- renderPlotly({
+  p2 <- ggplot(pisa_au, aes_string(x = input$x2, y = input$y2)) +
+    geom_point(alpha = input$alpha) +
+    theme(aspect.ratio = 1)
+  
+  if (input$color2 != 'None')
+    p2 <- p2 + aes_string(colour = input$color2)
+
+  ggplotly(p2) %>% 
+    layout(legend = list(x = 0, y = 0, orientation = 'h'))
+})
+```
+
