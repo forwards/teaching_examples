@@ -187,9 +187,9 @@ quiz(
     answer("ord"),
     answer("chr", correct = TRUE)
     ),
-  question("What type of variable is x?",
-    answer("dbl", correct = TRUE),
-    answer("int"),
+  question("What type of variable is price?",
+    answer("dbl"),
+    answer("int", correct = TRUE),
     answer("ord"),
     answer("chr")
     )
@@ -331,6 +331,29 @@ diamonds %>% mutate(ppc = price/carat)
 
 
 ```{r mutate, exercise=TRUE}
+
+```
+
+## Summarise
+
+Summarise is the workhorse function. It takes columns of the data, and reduces them to single numbers. It most useful when we want to compute statistics for subsets of the data.  For the diamonds, we might be interested in computing the mean and standard deviation price of price. 
+
+```{r}
+diamonds %>% summarise(m=mean(price, na.rm=TRUE), 
+                       s=sd(price, na.rm=TRUE))
+```
+
+Price might be dependent on the color of the diamond, so we can compute this separately for each of the color categories. Which  color is the most expensive?
+
+```{r}
+diamonds %>% group_by(color) %>%
+  summarise(m=mean(price, na.rm=TRUE), 
+                       s=sd(price, na.rm=TRUE))
+```
+
+*Try it!* Compute the mean and standard deviation for (a) the cut, (b) clarity of diamond.
+
+```{r summarise, exercise=TRUE}
 
 ```
 
