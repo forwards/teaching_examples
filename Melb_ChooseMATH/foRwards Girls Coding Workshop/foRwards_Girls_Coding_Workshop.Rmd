@@ -261,11 +261,99 @@ The vast majority of data cleaning tasks can be handled with five verbs:
 - `mutate()` Create new variables with functions of existing variables.
 - `summarise()` Collapse many values down to a single summary.
 
+Oh, and if you use the pipe, `%>%`, you can string several of these actions together to make a data pipeline.
+
+## Filter
+
+Filter is used to pick some cases or observations in the data. Here's an example for the diamonds data. We will choose just diamonds with a `Fair` cut. And to save printing all this to screen, we will check how many diamonds fall into this group.
+
+```{r}
+diamonds %>% filter(cut == "Fair") %>% tally()
+```
+
+*Try it!* Do these exercises:
+
+- Filter the diamonds data to pick only diamonds that cost less than $400
+- Filter diamonds with a Fair cut and cost less than $400
+- Filter the diamonds that have cut "Fair" or "Good" (HINT: You need to use the operator `%in%` like this `%in% c("Fair","Good"))`
+
+```{r filter, exercise=TRUE}
+
+```
+
+## Select
+
+Select is used to pick some variables in the data. Here's an example for the diamonds data. We will select just the variables carat and price, thinking that we might make a model for price built on the size of the diamond.
+
+```{r}
+diamonds %>% select(carat, price) 
+```
+
+*Try it!* Select the variables `x`, `y`, `z`
+
+
+```{r filter, exercise=TRUE}
+
+```
+
+## Arrange
+
+Arrange 
+
+```{r}
+diamonds %>% select(carat, price) 
+```
+
+*Try it!* Select the variables `x`, `y`, `z`
+
+
+```{r filter, exercise=TRUE}
+
+```
 
 ## Grammar of graphics
 
-## PISA data
+## YOUR TURN: PISA data
+
+Every three years the OECD conducts tests of workforce readiness on around 500,000 15 year olds world wide. The last test's were done in 2015, and the next will be conducted next year. Details about the tests can be found by going to the [OECD PISA website](http://www.oecd.org/pisa). 
+
+*If you click on the `PISA Test` link you will be able to test out your skills. Try it!* 
+
+*How well did you do?*
+
+## Student results
+
+The data from the 2015 results can be downloaded from the `Data` [link](http://www.oecd.org/pisa/data/2015database/). There are multiple data sets, but the one that we will use for this workshop is the student database. We have downloaded this data, and extracted the results for Australia, for you, so you don't need to do this. But you need to understand what is in the database. The student database has test scores for 14,530 Australian 15 year olds. The students were tested on math, science and reading, and there were special topics in science that were tested in that year. In addition, students completed a survey to provide information on their household (how many TVs, books, ...), their gender, and birth year, how supportive their parents are, what their friends like to do, how much time do they spend studying out of hours, and about their attitudes to school, subjects, and teachers. Overall, there are 921 variables!! In the subset we have made there are 44 of these variables. 
+
+Other tables available to download contain survey responses to questionnaires provided to the school principal, and sent home to parents. We won't be working with this information today.
+
+```{r pisa}
+quiz(
+  question("What age are the students that take the test?",
+    answer("12"),
+    answer("15", correct = TRUE),
+    answer("18"),
+    answer("21")
+  ),
+  question("How many students in Australia were tested in 2015",
+    answer("530"),
+    answer("1,453"),
+    answer("14,530", correct = TRUE),
+    answer("145,300")
+    ),
+  question("What subjects are tested?",
+    answer("math", correct = TRUE),
+    answer("science", correct = TRUE),
+    answer("reading", correct = TRUE),
+    answer("writing")
+    ) 
+)
+```
 
 ## Building a web story with interactive graphics
 
 ## Goal for the day
+
+*The task for the rest of the day is to enhance the app that we have started. Add more features, change the plots, add more data, ... the choice is up to you. Come up with something that you think your friends, teachers or parents might like to explore.*
+
+At the end of the day, we will have presentations from each group about your app. 
