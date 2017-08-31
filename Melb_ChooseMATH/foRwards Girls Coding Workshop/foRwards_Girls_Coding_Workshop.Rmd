@@ -303,13 +303,32 @@ Arrange sorts the data by values in one of the columns. Here's an example which 
 
 ```{r}
 diamonds %>% select(carat, price) %>%
-  arrange(price)
+  arrange(desc(price))
 ```
 
-*Try it!* Select the variables `x`, `y`, `z`
+Note that `desc` arranges in descending order. 
+
+*Try it!* Arrange carat by price, in increasing order.
 
 
 ```{r arrange, exercise=TRUE}
+
+```
+
+Arrange is mostly used to get quick views of the numbers.
+
+## Mutate
+
+I love the name mutate! It means to create new variables, or modify existing ones. For the diamonds, we might be interested in examining the price per carat of a diamond. Here's how we can create this variable:
+
+```{r}
+diamonds %>% mutate(ppc = price/carat)
+```
+
+*Try it!* Compute a new variable called size, based on a volume as measured by `x`, `y`, `z`. Is it the same or different from carat?
+
+
+```{r mutate, exercise=TRUE}
 
 ```
 
