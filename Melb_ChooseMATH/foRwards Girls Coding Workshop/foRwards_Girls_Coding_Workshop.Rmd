@@ -265,11 +265,13 @@ The vast majority of data cleaning tasks can be handled with five verbs:
 
 Oh, and if you use the pipe, `%>%`, you can string several of these actions together to make a data pipeline.
 
+You can find a data wrangling cheatsheet [here](https://github.com/rstudio/cheatsheets/raw/master/source/pdfs/data-transformation-cheatsheet.pdf.
+
 ## Filter
 
 Filter is used to pick some cases or observations in the data. Here's an example for the diamonds data. We will choose just diamonds with a `Fair` cut. And to save printing all this to screen, we will check how many diamonds fall into this group.
 
-```{r}
+```{r echo=TRUE}
 diamonds %>% filter(cut == "Fair") %>% tally()
 ```
 
@@ -287,7 +289,7 @@ diamonds %>% filter(cut == "Fair") %>% tally()
 
 Select is used to pick some variables in the data. Here's an example for the diamonds data. We will select just the variables carat and price, thinking that we might make a model for price built on the size of the diamond.
 
-```{r}
+```{r echo=TRUE}
 diamonds %>% select(carat, price) 
 ```
 
@@ -303,7 +305,7 @@ diamonds %>% select(carat, price)
 Arrange sorts the data by values in one of the columns. Here's an example which also involves selecting a subset of variables.
 
 
-```{r}
+```{r echo=TRUE}
 diamonds %>% select(carat, price) %>%
   arrange(desc(price))
 ```
@@ -323,7 +325,7 @@ Arrange is mostly used to get quick views of the numbers.
 
 I love the name mutate! It means to create new variables, or modify existing ones. For the diamonds, we might be interested in examining the price per carat of a diamond. Here's how we can create this variable:
 
-```{r}
+```{r echo=TRUE}
 diamonds %>% mutate(ppc = price/carat)
 ```
 
@@ -338,14 +340,14 @@ diamonds %>% mutate(ppc = price/carat)
 
 Summarise is the workhorse function. It takes columns of the data, and reduces them to single numbers. It most useful when we want to compute statistics for subsets of the data.  For the diamonds, we might be interested in computing the mean and standard deviation price of price. 
 
-```{r}
+```{r echo=TRUE}
 diamonds %>% summarise(m=mean(price, na.rm=TRUE), 
                        s=sd(price, na.rm=TRUE))
 ```
 
 Price might be dependent on the color of the diamond, so we can compute this separately for each of the color categories. Which  color is the most expensive?
 
-```{r}
+```{r echo=TRUE}
 diamonds %>% group_by(color) %>%
   summarise(m=mean(price, na.rm=TRUE), 
                        s=sd(price, na.rm=TRUE))
@@ -358,6 +360,126 @@ diamonds %>% group_by(color) %>%
 ```
 
 ## Grammar of graphics
+
+The grammar of graphics is a language that maps variables into graphical elements. Instead of uniquely naming specialist plots, like barchart, pie chart, histogram ... it provides the description of a plot, that enables comparing how they are similar and different. It gives us a more formal, and yes, mathematical way to make data plots. 
+The grammar of graphics has these major elements:
+
+```
+ggplot(data = <DATA>) + 
+  <GEOM_FUNCTION>(
+     mapping = aes(<MAPPINGS>),
+     stat = <STAT>, 
+     position = <POSITION>
+  ) +
+  <COORDINATE_FUNCTION> +
+  <FACET_FUNCTION>
+  ```
+  
+- DATA: This is the data.frame or tibble that you are starting from
+- MAPPINGS: Specific details of how a variable is mapped into the plot
+- GEOM: The graphical element to use, e.g. point, line, rectangle, density, boxplot, ...
+- STAT: A statistical calculation, if necessary, e.g. bin to make a histogram or barchart.
+- POSITION: Some types of plots, like barcharts conventionally have small deviations in design, like stacked, side-by-side, 100%. Position enables this type of shift.
+- COORDINATE: Most commonly we are using cartesian coordinates, but some plots benefit by putting them in polar coordinates, or even in a special map ratio, or some variables shown on a log scale.
+- FACET: Split the data into subsets and plot separately. Good for making comparisons across groups. 
+
+Here are some examples. We will use with a smaller subset of the diamonds for efficiency.
+
+```{r echo=TRUE}
+diamonds_small <- diamonds %>% sample_n(1000)
+ggplot(diamonds_small) +
+  geom_point(aes(x=carat, y=price))
+```
+
+This is a scatterplot of price by carat. There is a hint in the plot that carat tends to fall along some standard values, e.g. 1, 1.5, ... There are more small diamonds than larger ones - we would describe carat as right-skewed. Price is also right-skewed, as there are many more low prices diamonds than expensive ones. 
+
+```{r echo=TRUE}
+ggplot(diamonds_small) +
+  geom_bar(aes(x=cut))
+```
+
+This is a barchart of cut of the diamond. We can see that most diamonds have an "Ideal" cut, and there are very few "Fair" cut diamonds.
+
+```{r echo=TRUE}
+ggplot(diamonds_small) +
+  geom_point(aes(x=carat, y=price, colour=cut))
+```
+
+This is a scatterplot of price by carat, where points are coloured by the cut of the diamond. It is hard to see much difference in price between the cuts, there's a lot of overlap. It can be helpful to focus the view to display a model fit, instead of (or with) the points. 
+
+```{r echo=TRUE}
+ggplot(diamonds_small) +
+  geom_smooth(aes(x=carat, y=price, colour=cut), se=F)
+```
+
+There's really not much difference, at least for this subset. Maybe the Ideal cut has very slightly higher relative price.
+
+Let's now look at two categorical variables. We examine cut and clarity. (Note that with a barchart, we need to use `fill` rather than `colour` to paint in the bars.)
+
+```{r echo=TRUE}
+ggplot(diamonds_small) +
+  geom_bar(aes(x=cut, fill=clarity))
+```
+
+To examine the association between two categorical variables, it can be better to focus on proportions, rather than counts. The counts in the different cut categories are very different, and its hard to be able to say that the proportion of the clarity categories are the same or different in each bar. Here's where position helps:
+
+```{r echo=TRUE}
+ggplot(diamonds_small) +
+  geom_bar(aes(x=cut, fill=clarity), position="fill")
+```
+
+Now we can see that there are differences in the clarity for different cuts. The Ideal cut tends not to have I1 clarity diamonds, and the Fair cut diamonds tend not to have any IF clarity diamonds. 
+
+*Try it* Change the position to be `dodge`, and see what type of plot is created.
+
+```{r dodge, exercise=TRUE}
+
+```
+
+Its also possible to make separate plots for each of the clarity categories, using facet:
+
+```{r echo=TRUE}
+ggplot(diamonds_small) +
+  geom_bar(aes(x=cut, fill=clarity)) +
+  facet_wrap(~clarity, ncol=4, scales="free_x") +
+  coord_flip() + theme(legend.position="bottom")
+```
+
+Now we can see the the distribution of cuts is different in the l1 and SI2 clarity categories, but fairly similar in the others. The IF clarity group is almost exclusively Ideal cut. 
+
+When you have a categorical variable, and a quantitative variable, a good type of display is the side-by-side boxplot. Let's look at price by cut.
+
+```{r echo=TRUE}
+ggplot(diamonds_small) +
+  geom_boxplot(aes(x=cut, y=price, fill=cut))
+```
+
+We can see that the Fair cut diamonds tend to be slightly more expensive. 
+
+```{r boxplot}
+quiz(
+  question("In a boxplot what does the line in the middle of the box represent?",
+    answer("median", correct = TRUE),
+    answer("mean"),
+    answer("standard deviation"),
+    answer("Interquartile range")
+  ),
+  question("In a boxplot what does the box represent?",
+    answer("median"),
+    answer("mean"),
+    answer("standard deviation"),
+    answer("Interquartile range", correct = TRUE)
+  )
+)
+```
+
+*Try it* Examine the side-by-side boxplot of price by clarity. Is there a difference in price across the different clarity groups? Also try out `geom_violin` instead of `geom_boxplot`. What does this do? 
+
+```{r violin, exercise=TRUE}
+
+```
+
+There is a chapter on visualisation in [R for Data Science](http://r4ds.had.co.nz/data-visualisation.html) with lots of examples. If you have time, take a skim through this and try out some of the ideas. There is also a [graphics cheatsheet](https://www.rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf) that can be useful to learn about all sorts of geoms, options, transformations, themes, ...
 
 ## YOUR TURN: PISA data
 
@@ -396,10 +518,33 @@ quiz(
 )
 ```
 
-## Building a web story with interactive graphics
+## Building a web story 
+
+To make it easier for others to explore a data set, now that you can an expert(!), we can put it into a web document, called a flexdashboard. You can learn more about them at the RStudio Rmarkdown flexdashboards [tutorial](http://rmarkdown.rstudio.com/flexdashboard/using.html). 
+
+And you can see the example one tat we have built, by opening the file `pisa.Rmd` in your RStudio window. Click `Run document` and the app will run on your computer. Alternatively, you can view it by pointing your web browser to [https://visnut.shinyapps.io/pisa/](https://visnut.shinyapps.io/pisa/). Here's what you will see:
+
+![](images/fdb1.png)
+![](images/fdb2.png)
+
+Flexdashboards are written in Rmarkdown. Its a really simple typesetting language, and you should only need to know three things:
+
+- At the very top of the file there is a paragraph starting and ending with `---`. This sets up the heading of the document, and formatting options.
+- `###` Makes a heading in the document
+- The lines between ` ```{r}` and ` ``` ` are lines of R code, that are run when the document is compiled.
+
+There is an Rmarkdown cheatsheet [here](https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf)
+
+The rest of the flexdashboard is contructed using some special user interface items, e.g. 
+
+- `sidebarPanel()` sets up the items on the left of the window where users can choose parameters for the plots. 
+- `fillRow` does some sizing of the components on the window
+- `plotlyOutput` tells the app that we want to use interactive graphics, it takes the ggplot2 plot and uses the `plotly` package to make it interactive.
+
+Read through the flex dashboards [tutorial](http://rmarkdown.rstudio.com/flexdashboard/using.html) and familiarise yourself with some of the ways that an app can be modified, and constructed. The `pisa.Rmd` file has 72 lines to produce a pretty flexible interface to the PISA data.
 
 ## Goal for the day
 
-*The task for the rest of the day is to enhance the app that we have started. Add more features, change the plots, add more data, ... the choice is up to you. Come up with something that you think your friends, teachers or parents might like to explore.*
+*The task for the rest of the day is to enhance the app that we have started. Add more features, change the plots, add more data, ... the choice is up to you. Come up with something that you think your friends, teachers or parents might like to explore about the PISA data.*
 
 At the end of the day, we will have presentations from each group about your app. 
