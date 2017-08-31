@@ -34,7 +34,7 @@ Hey math boffins, welcome to the coding with R class! Let me introduce you to ou
 
 - *Login to your computer.* 
 - *Open RStudio, using `Start -> All Programs`*
-- *Create a project for your work. On the very right side of the window is a small blue R, and a drop down menu. Select `New project`, then `New directory`, navigate to the desktop, and name the project `ChooseMATH`. This will create a folder with this name on the desktop. This will be our workspace for the day.*
+- *Create a project for your work. On the very right side of the window is a small blue R, and a drop-down menu. Select `New project`, then `New directory`, navigate to the desktop, and name the project `ChooseMATH`. This will create a folder with this name on the desktop. This will be our workspace for the day.*
 
 ```{r fig.height = 6, fig.width = 8, fig.align='center'}
 knitr::include_graphics("images/rstudio.png")
@@ -57,7 +57,7 @@ The RStudio window has mutiple panes.
 - *Console*: you can type R commands and see output
 - *Help*: find out information about functions and packages. This same panel will have tabs for *showing plots* that you make, *view apps* and documents, show *files* in the folder, and *packages* used. 
 - *Environment*: lists the objects that you create, such as data sets.
-- *Editor*: For creating scripts to run in pieces or as a whole (like this document!)
+- *Editor*: for creating scripts to run in pieces or as a whole (like this document!)
 
 R is a scripting language, which means that it is just like writing an essay, or a math proof. We write a script to do specific tasks, that we can run again and again, or give to someone else to run. 
 
@@ -92,11 +92,11 @@ quiz(
 
 Let's pretend that we are math teachers and we've just given the class a test. R can be used to simulate results like this. 
 
-- The code `rnorm(35, 70, 10)` will generate a sample of size 35 from a normal model with mean 70 and standard deviation 10. 
+- The code `rnorm(n = 35, mean = 70, sd = 10)` will generate a sample of size 35 from a normal model with mean 70 and standard deviation 10. 
 - But when you do this you will likely want to save the result into a data object. Lets call this `scores`. 
 - To save it you need to assign the result to `scores` using the `gets` operator `<-`. This is just like an `=` sign. 
 
-*Try it, `scores <- rnorm(35, 70, 10)`*
+*Try it, `scores <- rnorm(n = 35, mean = 70, sd = 10)`*
 
 ```{r rnorm, exercise=TRUE}
 
@@ -145,9 +145,13 @@ mypolyfn <- function(x) {
 
 ## YOUR TURN
 
-With your team, experiment with writing functions, in your R Studio Window. Try to write function that simulates a sample of size $n$ from a normal model, allowing the user to input the population mean and standard deviation. The retun values form the function should be the mean and standard deviation of the sample.
+With your team, experiment with writing functions, in your RStudio Window. Try to write function that simulates a sample of size $n$ from a normal model, allowing the user to input the population mean and standard deviation. The retun values form the function should be the mean and standard deviation of the sample.
 
 ## Data frames, tibbles, matrices, vectors
+
+```{r fig.align='center'}
+knitr::include_graphics("images/tidyverse.png")
+```
 
 The strength of R is the contribution from people globally, in the form of packages. One of the most used suite of packages is called the `tidyverse`. It has many really easy to use, and nicely contructed functions for reading data, organising data into a format that can be plotted, modelled and analysed. 
 
@@ -167,7 +171,7 @@ data(diamonds)
 diamonds
 ```
 
-The diamonds data of the data sets provided with the tidyverse to help you learn R. It contains measurements on 50000 diamonds, from a large database of sales. There are 10 variables. Look at the top of overview of the data provided, and you will see the variable labels, and a short-hand description of the type of variable is in the column: `dbl` means numeric, high precision; `ord` is an ordered categorical variable; `int` is a numeric that takes only integer values. Other types possible include `chr` is a text or categorical variable, `fctr` a special type of categorical variable with labels, `date` contains a date, and `lgl` means logical (TRUE or FALSE). 
+The diamonds data of the data sets provided with the tidyverse to help you learn R. It contains measurements on 50000 diamonds, from a large database of sales. There are 10 variables. Look at the top of overview of the data provided, and you will see the variable labels, and a short-hand description of the type of variable is in the column: `dbl` means numeric, high precision; `ord` is an ordered categorical variable; `int` is a numeric that takes only integer values. Other possible types include `chr` is a text or categorical variable, `fctr` a special type of categorical variable with levels, `date` contains a date, and `lgl` means logical (`TRUE` or `FALSE`). 
 
 ## Quiz
 
@@ -184,8 +188,8 @@ quiz(
   question("What type of variable is cut?",
     answer("dbl"),
     answer("int"),
-    answer("ord"),
-    answer("chr", correct = TRUE)
+    answer("ord", correct = TRUE),
+    answer("chr")
     ),
   question("What type of variable is price?",
     answer("dbl"),
@@ -228,7 +232,7 @@ A good resource on learning more about the `tidyverse` is the book "R for Data S
 
 ## YOUR TURN: Tidy data verbs
 
-With your group read sections 12.1-12.3 of [R for Data Science](http://r4ds.had.co.nz/). Then answer these questions:
+With your group read sections 12.1-12.3 of [R for Data Science](http://r4ds.had.co.nz/tidy-data.html). Then answer these questions:
 
 ```{r tidydata}
 quiz(
@@ -373,7 +377,7 @@ ggplot(data = <DATA>) +
   ) +
   <COORDINATE_FUNCTION> +
   <FACET_FUNCTION>
-  ```
+```
   
 - DATA: This is the data.frame or tibble that you are starting from
 - MAPPINGS: Specific details of how a variable is mapped into the plot
@@ -409,7 +413,7 @@ This is a scatterplot of price by carat, where points are coloured by the cut of
 
 ```{r echo=TRUE}
 ggplot(diamonds_small) +
-  geom_smooth(aes(x=carat, y=price, colour=cut), se=F)
+  geom_smooth(aes(x=carat, y=price, colour=cut), se=FALSE)
 ```
 
 There's really not much difference, at least for this subset. Maybe the Ideal cut has very slightly higher relative price.
@@ -430,7 +434,7 @@ ggplot(diamonds_small) +
 
 Now we can see that there are differences in the clarity for different cuts. The Ideal cut tends not to have I1 clarity diamonds, and the Fair cut diamonds tend not to have any IF clarity diamonds. 
 
-*Try it* Change the position to be `dodge`, and see what type of plot is created.
+*Try it!* Change the position to be `dodge`, and see what type of plot is created.
 
 ```{r dodge, exercise=TRUE}
 
@@ -468,12 +472,12 @@ quiz(
     answer("median"),
     answer("mean"),
     answer("standard deviation"),
-    answer("Interquartile range", correct = TRUE)
+    answer("interquartile range", correct = TRUE)
   )
 )
 ```
 
-*Try it* Examine the side-by-side boxplot of price by clarity. Is there a difference in price across the different clarity groups? Also try out `geom_violin` instead of `geom_boxplot`. What does this do? 
+*Try it!* Examine the side-by-side boxplot of price by clarity. Is there a difference in price across the different clarity groups? Also try out `geom_violin` instead of `geom_boxplot`. What does this do? 
 
 ```{r violin, exercise=TRUE}
 
@@ -520,9 +524,9 @@ quiz(
 
 ## Building a web story 
 
-To make it easier for others to explore a data set, now that you can an expert(!), we can put it into a web document, called a flexdashboard. You can learn more about them at the RStudio Rmarkdown flexdashboards [tutorial](http://rmarkdown.rstudio.com/flexdashboard/using.html). 
+To make it easier for others to explore a data set, now that you can be an expert(!), we can put it into a web document, called a flexdashboard. You can learn more about them at the RStudio Rmarkdown flexdashboards [tutorial](http://rmarkdown.rstudio.com/flexdashboard/using.html). 
 
-And you can see the example one tat we have built, by opening the file `pisa.Rmd` in your RStudio window. Click `Run document` and the app will run on your computer. Alternatively, you can view it by pointing your web browser to [https://visnut.shinyapps.io/pisa/](https://visnut.shinyapps.io/pisa/). Here's what you will see:
+And you can see the example one that we have built, by opening the file `pisa.Rmd` in your RStudio window. Click `Run document` and the app will run on your computer. Alternatively, you can view it by pointing your web browser to [https://visnut.shinyapps.io/pisa/](https://visnut.shinyapps.io/pisa/). Here's what you will see:
 
 ![](images/fdb1.png)
 ![](images/fdb2.png)
