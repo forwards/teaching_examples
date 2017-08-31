@@ -1,0 +1,271 @@
+---
+title: "Tutorial"
+output: 
+  learnr::tutorial:
+    css: "css/logo.css"
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE,
+                      comment="")
+tutorial_html_dependency()
+```
+
+
+## Welcome!
+
+Hey math boffins, welcome to the coding with R class! Let me introduce you to our team:
+
+![](images/instructors.png)
+
+- Hi, I'm Di! A professor at Monash University, and originally from Wauchope, NSW. 
+- This is Earo! She's a PhD student in econometrics and business statistics at Monash University, an expert in methods for temporal data. 
+- This is Nick! He's a post-doctoral researcher in econometrics and business statistics at Monash University, and has an R package called naniar.
+
+### Exercise 
+
+*Introduce yourself to the other members of your team, and brainstorm a team name. You've got five minutes!* 
+
+*Nominate a spokesperson to give a 1 minute intro for the team to us all.*
+
+## Let's get started learning R! 
+
+- *Login to your computer.* 
+- *Open RStudio, using `Start -> All Programs`*
+- *Create a project for your work. On the very right side of the window is a small blue R, and a drop down menu. Select `New project`, then `New directory`, navigate to the desktop, and name the project `ChooseMATH`. This will create a folder with this name on the desktop. This will be our workspace for the day.*
+
+![](images/rstudio.png)
+
+## What is R!
+
+The R project is a huge open source software collaboration. There is a foundation team of 36 people, and contributions from thousands of people globally. You can learn more about the project by visiting this web site [https://www.r-project.org](https://www.r-project.org).
+
+R is the language of data analysis! It is the top program used for data science today, one of the most powerful tools available, and completely free for anyone to use. 
+
+RStudio is commercial product, but it is free to most of us, and it provides an interface to help us use the R language. 
+
+*If R is the airplane, RStudio is the airport terminal that provides the support.*
+
+## Start coding!
+
+The RStudio window has mutiple panes.
+
+- *Console*: you can type R commands and see output
+- *Help*: find out information about functions and packages. This same panel will have tabs for *showing plots* that you make, *view apps* and documents, show *files* in the folder, and *packages* used. 
+- *Environment*: lists the objects that you create, such as data sets.
+- *Editor*: For creating scripts to run in pieces or as a whole (like this document!)
+
+R is a scripting language, which means that it is just like writing an essay, or a math proof. We write a script to do specific tasks, that we can run again and again, or give to someone else to run. 
+
+*Write the R code required to add two plus two (yes, it is as simple as typing `2+2` below:*
+
+```{r two-plus-two, exercise=TRUE}
+
+```
+
+*R is like a big calculator! Try doing other math operations, like subtraction, multiplication, division, or square root and power operations.*
+
+## Quiz
+
+```{r operators}
+quiz(
+  question("Which symbol/operator is used to indicate raising a number to a power?",
+    answer("`+`"),
+    answer("`/`"),
+    answer("`^`", correct = TRUE),
+    answer("`%`")
+  ),
+  question("If you want to find the remainder of 5 divided by 2, which operator is used?",
+    answer("`%%`", correct = TRUE),
+    answer("`%/%`"),
+    answer("`|`"),
+    answer("`*`")
+    )
+)
+```
+
+## Simulation
+
+Let's pretend that we are math teachers and we've just given the class a test. R can be used to simulate results like this. 
+
+- The code `rnorm(35, 70, 10)` will generate a sample of size 35 from a normal model with mean 70 and standard deviation 10. 
+- But when you do this you will likely want to save the result into a data object. Lets call this `scores`. 
+- To save it you need to assign the result to `scores` using the `gets` operator `<-`. This is just like an `=` sign. 
+
+*Try it, `scores <- rnorm(35, 70, 10)`*
+
+```{r rnorm, exercise=TRUE}
+
+```
+
+Oh, nothing happens! That is because we have saved the result into a data object. Let's check if we have created a dataset. You can check the length of scores using `length(scores)`. It should be 35. You can also compute the mean and standard deviation of the data using `mean(scores)` and `sd(scores)`
+
+## Functions
+
+In math, we use functions all the time. Functions have inputs and outputs, e.g. $f(x) = 3x^2+x+1$
+
+R can be considered to be a functional language. These are functions that we have just used, `rnorm(), mean(), sd()`. 
+
+What does a function in R look like? The polynomial function above would look like this in R:
+
+```
+mypolyfn <- function(x) {
+  f <- 3*x^2 + x + 1
+  return(f)
+}
+```
+
+It takes `x` as the input, and returns `f` as output. The benefit of functions is that it makes your work more efficient - anything that you need to do again and again, or on different sets of data, should be programmed into a function.
+
+Try it! Write the function below, so that it is defined. And then test it out by inputting different values of `x`, e.g. `mypolyfn(2)`, or `mypolyfn(-1)`, or even entering a vector of `x`'s, `mypolyfn(seq(-5, 5, 1))`
+
+```{r functions, exercise=TRUE}
+
+```
+
+What can go wrong?
+
+This function is expecting `x` to be a number. If the user inputs something other that a number, what happens? 
+
+Try it! Try running your function with a text string of your team name instead of a number, e.g. `mypolyfn("numbat")`.
+
+You get an error. Well-written functions check for silly user errors. A better version of the function would be:
+
+```
+mypolyfn <- function(x) {
+  stopifnot(is.numeric(x))
+  f <- 3*x^2 + x + 1
+  return(f)
+}
+```
+
+## YOUR TURN
+
+With your team, experiment with writing functions, in your R Studio Window. Try to write function that simulates a sample of size $n$ from a normal model, allowing the user to input the population mean and standard deviation. The retun values form the function should be the mean and standard deviation of the sample.
+
+## Data frames, tibbles, matrices, vectors
+
+The strength of R is the contribution from people globally, in the form of packages. One of the most used suite of packages is called the `tidyverse`. It has many really easy to use, and nicely contructed functions for reading data, organising data into a format that can be plotted, modelled and analysed. 
+
+To use a package you load the library:
+
+```
+library(tidyverse)
+```
+
+If you get an error when you load a library, then your version of R on your computer doesn't yet have that package. So you would need to install it using `install.packages("tidyverse")`. You would install once, but load the library every time you start R when you want to use it. WE DON'T NEED TO INSTALL ANY PACKAGES TODAY, EVERYTHING HAS BEEN PRE-INSTALLED. 
+
+Let's take a look at the `tidyverse` package. (It has these packages, `ggplot2`, `tibble`, `tidyr`, `readr`, `purrr`, `dplyr` that will be all loaded when `tidyverse` is loaded.) Load the `tidyverse` library:
+
+```{r echo=TRUE, warning=FALSE}
+library(tidyverse)
+data(diamonds)
+diamonds
+```
+
+The diamonds data of the data sets provided with the tidyverse to help you learn R. It contains measurements on 50000 diamonds, from a large database of sales. There are 10 variables. Look at the top of overview of the data provided, and you will see the variable labels, and a short-hand description of the type of variable is in the column: `dbl` means numeric, high precision; `ord` is an ordered categorical variable; `int` is a numeric that takes only integer values. Other types possible include `chr` is a text or categorical variable, `fctr` a special type of categorical variable with labels, `date` contains a date, and `lgl` means logical (TRUE or FALSE). 
+
+## Quiz
+
+Look at the data summary and answer these questions:
+
+```{r datatypes}
+quiz(
+  question("What type of variable is carat?",
+    answer("dbl", correct = TRUE),
+    answer("int"),
+    answer("ord"),
+    answer("chr")
+  ),
+  question("What type of variable is cut?",
+    answer("dbl"),
+    answer("int"),
+    answer("ord"),
+    answer("chr", correct = TRUE)
+    ),
+  question("What type of variable is x?",
+    answer("dbl", correct = TRUE),
+    answer("int"),
+    answer("ord"),
+    answer("chr")
+    )
+)
+```
+
+## Back to tibbles and matrices
+
+The whole data set, diamonds is what the tidyverse calls a `tibble`. Tibble is a play on the word table! But it means data in a rectangular format, where there may be different types of variables (numeric, categorical, dates, ...) in different columns. A tibble is a special case of a `data.frame`. You can check the type of data object with a query:
+
+```{r echo=TRUE}
+is_tibble(diamonds)
+is.data.frame(diamonds)
+is.matrix(diamonds)
+```
+
+*Aside: The tidyverse tends to use `_` in its function names. Older parts of R tend to use `.` to separate words in function names.*
+
+So diamonds is a tibble and a data.frame, but it is not a matrix. 
+
+When you simulated the sample from a normal model, 
+
+```{r echo=TRUE}
+x <- rnorm(100)
+is_tibble(x)
+is.data.frame(x)
+is.matrix(x)
+is.vector(x)
+```
+
+you created a `vector`. A vector is a column of numbers, and a `matrix` is a rectangular format of data, like a tibble, it has variables in columns, but it can only contain numeric values. 
+
+Knowing the data type, is important because some functions expect one sort of data and can throw an error if it gets something different. You can convert data objects between types. 
+
+A good resource on learning more about the `tidyverse` is the book "R for Data Science" by Garret Grolemund and Hadley Wickham. [You can read it free online.](http://r4ds.had.co.nz/)
+
+## YOUR TURN: Tidy data verbs
+
+With your group read sections 12.1-12.3 of [R for Data Science](http://r4ds.had.co.nz/). Then answer these questions:
+
+```{r tidydata}
+quiz(
+  question("What the three interrelated rules which make a dataset tidy?",
+    answer("Each variable must have its own column.", correct = TRUE),
+    answer("Each observation must have its own row.", correct = TRUE),
+    answer("Each value must have its own cell.", correct = TRUE),
+    answer("None of these")
+  ),
+  question("A common problem is a dataset where some of the column names are not names of variables, but values of a variable. What verb does an action which organises those columns into a new pair of variables?",
+    answer("gather", correct = TRUE),
+    answer("spread"),
+    answer("mutate"),
+    answer("select")
+    ),
+  question("What verb does the opposite to gather?",
+    answer("gather"),
+    answer("spread", correct = TRUE),
+    answer("mutate"),
+    answer("select")
+    ) 
+)
+```
+
+## Wrangling verbs
+
+The vast majority of data cleaning tasks can be handled with five verbs:
+
+- `filter()` Pick observations by their values.
+- `arrange()` Reorder the rows.
+- `select()` Pick variables by their names.
+- `mutate()` Create new variables with functions of existing variables.
+- `summarise()` Collapse many values down to a single summary.
+
+
+## Grammar of graphics
+
+## PISA data
+
+## Building a web story with interactive graphics
+
+## Goal for the day
