@@ -292,22 +292,24 @@ diamonds %>% select(carat, price)
 *Try it!* Select the variables `x`, `y`, `z`
 
 
-```{r filter, exercise=TRUE}
+```{r select, exercise=TRUE}
 
 ```
 
 ## Arrange
 
-Arrange 
+Arrange sorts the data by values in one of the columns. Here's an example which also involves selecting a subset of variables.
+
 
 ```{r}
-diamonds %>% select(carat, price) 
+diamonds %>% select(carat, price) %>%
+  arrange(price)
 ```
 
 *Try it!* Select the variables `x`, `y`, `z`
 
 
-```{r filter, exercise=TRUE}
+```{r arrange, exercise=TRUE}
 
 ```
 
