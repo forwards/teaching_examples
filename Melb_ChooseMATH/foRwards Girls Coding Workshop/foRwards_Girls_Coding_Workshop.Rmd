@@ -36,7 +36,9 @@ Hey math boffins, welcome to the coding with R class! Let me introduce you to ou
 - *Open RStudio, using `Start -> All Programs`*
 - *Create a project for your work. On the very right side of the window is a small blue R, and a drop down menu. Select `New project`, then `New directory`, navigate to the desktop, and name the project `ChooseMATH`. This will create a folder with this name on the desktop. This will be our workspace for the day.*
 
-![](images/rstudio.png)
+```{r fig.height = 6, fig.width = 8, fig.align='center'}
+knitr::include_graphics("images/rstudio.png")
+```
 
 ## What is R!
 
