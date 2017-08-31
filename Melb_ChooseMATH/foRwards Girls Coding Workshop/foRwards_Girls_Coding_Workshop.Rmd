@@ -30,6 +30,7 @@ Hey math boffins, welcome to the coding with R class! Let me introduce you to ou
 
 *Nominate a spokesperson to give a 1 minute intro for the team to us all.*
 
+
 ## Let's get started learning R! 
 
 - *Login to your computer.* 
@@ -121,7 +122,7 @@ mypolyfn <- function(x) {
 
 It takes `x` as the input, and returns `f` as output. The benefit of functions is that it makes your work more efficient - anything that you need to do again and again, or on different sets of data, should be programmed into a function.
 
-Try it! Write the function below, so that it is defined. And then test it out by inputting different values of `x`, e.g. `mypolyfn(2)`, or `mypolyfn(-1)`, or even entering a vector of `x`'s, `mypolyfn(seq(-5, 5, 1))`
+*Try it!* Write the function below, so that it is defined. And then test it out by inputting different values of `x`, e.g. `mypolyfn(2)`, or `mypolyfn(-1)`, or even entering a vector of `x`'s, `mypolyfn(seq(-5, 5, 1))`
 
 ```{r functions, exercise=TRUE}
 
@@ -131,7 +132,7 @@ What can go wrong?
 
 This function is expecting `x` to be a number. If the user inputs something other that a number, what happens? 
 
-Try it! Try running your function with a text string of your team name instead of a number, e.g. `mypolyfn("numbat")`.
+*Try it!* Try running your function with a text string of your team name instead of a number, e.g. `mypolyfn("numbat")`.
 
 You get an error. Well-written functions check for silly user errors. A better version of the function would be:
 
@@ -145,7 +146,7 @@ mypolyfn <- function(x) {
 
 ## YOUR TURN
 
-With your team, experiment with writing functions, in your RStudio Window. Try to write function that simulates a sample of size $n$ from a normal model, allowing the user to input the population mean and standard deviation. The retun values form the function should be the mean and standard deviation of the sample.
+With your team, experiment with writing functions, in your RStudio Window. Try to write a function that simulates a sample of size $n$ from a normal model, allowing the user to input the population mean and standard deviation. The retun values form the function should be the mean and standard deviation of the sample.
 
 ## Data frames, tibbles, matrices, vectors
 
@@ -171,7 +172,7 @@ data(diamonds)
 diamonds
 ```
 
-The diamonds data of the data sets provided with the tidyverse to help you learn R. It contains measurements on 50000 diamonds, from a large database of sales. There are 10 variables. Look at the top of overview of the data provided, and you will see the variable labels, and a short-hand description of the type of variable is in the column: `dbl` means numeric, high precision; `ord` is an ordered categorical variable; `int` is a numeric that takes only integer values. Other possible types include `chr` is a text or categorical variable, `fctr` a special type of categorical variable with levels, `date` contains a date, and `lgl` means logical (`TRUE` or `FALSE`). 
+The diamonds data is one of the data sets provided with the tidyverse to help you learn R. It contains measurements on 50000 diamonds, from a large database of sales. There are 10 variables. Look at the top of overview of the data provided, and you will see the variable labels, and a short-hand description of the type of variable is in the column: `dbl` means numeric, high precision; `ord` is an ordered categorical variable; `int` is a numeric that takes only integer values. Other possible types include `chr` is a text or categorical variable, `fctr` a special type of categorical variable with levels, `date` contains a date, and `lgl` means logical (`TRUE` or `FALSE`). 
 
 ## Quiz
 
@@ -552,3 +553,5 @@ Read through the flex dashboards [tutorial](http://rmarkdown.rstudio.com/flexdas
 *The task for the rest of the day is to enhance the app that we have started. Add more features, change the plots, add more data, ... the choice is up to you. Come up with something that you think your friends, teachers or parents might like to explore about the PISA data.*
 
 At the end of the day, we will have presentations from each group about your app. 
+
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
