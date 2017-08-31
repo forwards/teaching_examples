@@ -265,7 +265,7 @@ The vast majority of data cleaning tasks can be handled with five verbs:
 
 Oh, and if you use the pipe, `%>%`, you can string several of these actions together to make a data pipeline.
 
-You can find a data wrangling cheatsheet [here](https://github.com/rstudio/cheatsheets/raw/master/source/pdfs/data-transformation-cheatsheet.pdf.
+You can find a data wrangling cheatsheet [here](https://github.com/rstudio/cheatsheets/raw/master/source/pdfs/data-transformation-cheatsheet.pdf).
 
 ## Filter
 
