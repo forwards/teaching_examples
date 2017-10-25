@@ -34,7 +34,7 @@ shinyApp(
         col <- "grey10"
       }
       p <- ggplot(pisa_au, aes(x = math, y = read)) +
-        geom_point(size = input$bigger, alpha = 0.7) +
+        geom_point(colour = col, size = input$bigger, alpha = 0.7) +
         facet_grid(~ gender) +
         theme(aspect.ratio = 1)
 
