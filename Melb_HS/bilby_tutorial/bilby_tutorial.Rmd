@@ -1,0 +1,556 @@
+---
+title: "Tutorial"
+output: 
+  learnr::tutorial:
+    css: "css/logo.css"
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE,
+                      comment="")
+tutorial_html_dependency()
+```
+
+
+## Welcome!
+
+Hey math boffins, welcome to the coding with R class! Let me introduce you to our team:
+
+- Hi, I'm Di! A professor at Monash University, and I can make pictures of things that live in high dimensions, that's more than 3D. 
+- This is Earo! She's a PhD student in econometrics and business statistics at Monash University, and plots of data on a calendar. 
+- This is Thiyanga! She's a PhD student in econometrics and business statistics at Monash University, and an expert in random forests. What's a random forest, you ask? Just ask, it is related to trees.
+- This is Dilini! She's also a PhD student in econometrics and business statistics at Monash University, and she's working on intruder detection.
+
+### Exercise 
+
+*Introduce yourself to the other members of your team, and brainstorm a team name. You've got five minutes!* 
+
+*Tell us about your choice of team name, and something about each member*
+
+
+## Let's get started learning R! 
+
+- *Login to your computer.* 
+- *Open RStudio, using `Start -> All Programs`*
+- *Create a project for your work. On the very right side of the window is a small blue R, and a drop-down menu. Select `New project`, then `New directory`, navigate to the desktop, and name the project `ChooseMATH`. This will create a folder with this name on the desktop. This will be our workspace for the day.*
+
+```{r fig.height = 6, fig.width = 8, fig.align='center'}
+knitr::include_graphics("images/rstudio.png")
+```
+
+## What is R!
+
+The R project is a huge open source software collaboration. There is a foundation team of 36 people, and contributions from thousands of people globally. You can learn more about the project by visiting this web site [https://www.r-project.org](https://www.r-project.org).
+
+R is the language of data analysis! It is the top program used for data science today, one of the most powerful tools available, and completely free for anyone to use. 
+
+RStudio is commercial product, but it is free to most of us, and it provides an interface to help us use the R language. 
+
+*If R is the airplane, RStudio is the airport terminal that provides the support.*
+
+## Start coding!
+
+The RStudio window has mutiple panes.
+
+- *Console*: you can type R commands and see output
+- *Help*: find out information about functions and packages. This same panel will have tabs for *showing plots* that you make, *view apps* and documents, show *files* in the folder, and *packages* used. 
+- *Environment*: lists the objects that you create, such as data sets.
+- *Editor*: for creating scripts to run in pieces or as a whole (like this document!)
+
+R is a scripting language, which means that it is just like writing an essay, or a math proof. We write a script to do specific tasks, that we can run again and again, or give to someone else to run. 
+
+*Write the R code required to add two plus two (yes, it is as simple as typing `2+2` below:*
+
+```{r two-plus-two, exercise=TRUE}
+
+```
+
+*R is like a big calculator! Try doing other math operations, like subtraction, multiplication, division, or square root and power operations.*
+
+## Quiz
+
+```{r operators}
+quiz(
+  question("Which symbol/operator is used to indicate raising a number to a power?",
+    answer("`+`"),
+    answer("`/`"),
+    answer("`^`", correct = TRUE),
+    answer("`%`")
+  ),
+  question("If you want to find the remainder of 5 divided by 2, which operator is used?",
+    answer("`%%`", correct = TRUE),
+    answer("`%/%`"),
+    answer("`|`"),
+    answer("`*`")
+    )
+)
+```
+
+## Simulation
+
+Let's pretend that we are math teachers and we've just given the class a test. R can be used to simulate results like this. 
+
+- The code `rnorm(n = 35, mean = 70, sd = 10)` will generate a sample of size 35 from a normal model with mean 70 and standard deviation 10. 
+- But when you do this you will likely want to save the result into a data object. Lets call this `scores`. 
+- To save it you need to assign the result to `scores` using the `gets` operator `<-`. This is just like an `=` sign. 
+
+*Try it, `scores <- rnorm(n = 35, mean = 70, sd = 10)`*
+
+```{r rnorm, exercise=TRUE}
+
+```
+
+Oh, nothing happens! That is because we have saved the result into a data object. Let's check if we have created a dataset. You can check the length of scores using `length(scores)`. It should be 35. You can also compute the mean and standard deviation of the data using `mean(scores)` and `sd(scores)`
+
+## Functions
+
+In math, we use functions all the time. Functions have inputs and outputs, e.g. $f(x) = 3x^2+x+1$
+
+R can be considered to be a functional language. These are functions that we have just used, `rnorm(), mean(), sd()`. 
+
+What does a function in R look like? The polynomial function above would look like this in R:
+
+```
+mypolyfn <- function(x) {
+  f <- 3*x^2 + x + 1
+  return(f)
+}
+```
+
+It takes `x` as the input, and returns `f` as output. The benefit of functions is that it makes your work more efficient - anything that you need to do again and again, or on different sets of data, should be programmed into a function.
+
+*Try it!* Write the function below, so that it is defined. And then test it out by inputting different values of `x`, e.g. `mypolyfn(2)`, or `mypolyfn(-1)`, or even entering a vector of `x`'s, `mypolyfn(seq(-5, 5, 1))`
+
+```{r functions, exercise=TRUE}
+
+```
+
+What can go wrong?
+
+This function is expecting `x` to be a number. If the user inputs something other that a number, what happens? 
+
+*Try it!* Try running your function with a text string of your team name instead of a number, e.g. `mypolyfn("numbat")`.
+
+You get an error. Well-written functions check for silly user errors. A better version of the function would be:
+
+```
+mypolyfn <- function(x) {
+  stopifnot(is.numeric(x))
+  f <- 3*x^2 + x + 1
+  return(f)
+}
+```
+
+## YOUR TURN
+
+With your team, experiment with writing functions, in your RStudio Window. Try to write a function that simulates a sample of size $n$ from a normal model, allowing the user to input the population mean and standard deviation. The retun values form the function should be the mean and standard deviation of the sample.
+
+## Data frames, tibbles, matrices, vectors
+
+```{r fig.align='center'}
+knitr::include_graphics("images/tidyverse.png")
+```
+
+The strength of R is the contribution from people globally, in the form of packages. One of the most used suite of packages is called the `tidyverse`. It has many really easy to use, and nicely contructed functions for reading data, organising data into a format that can be plotted, modelled and analysed. 
+
+To use a package you load the library:
+
+```
+library(tidyverse)
+```
+
+If you get an error when you load a library, then your version of R on your computer doesn't yet have that package. So you would need to install it using `install.packages("tidyverse")`. You would install once, but load the library every time you start R when you want to use it. WE DON'T NEED TO INSTALL ANY PACKAGES TODAY, EVERYTHING HAS BEEN PRE-INSTALLED. 
+
+Let's take a look at the `tidyverse` package. (It has these packages, `ggplot2`, `tibble`, `tidyr`, `readr`, `purrr`, `dplyr` that will be all loaded when `tidyverse` is loaded.) Load the `tidyverse` library:
+
+```{r echo=TRUE, warning=FALSE}
+library(tidyverse)
+data(diamonds)
+diamonds
+```
+
+The diamonds data is one of the data sets provided with the tidyverse to help you learn R. It contains measurements on 50000 diamonds, from a large database of sales. There are 10 variables. Look at the top of overview of the data provided, and you will see the variable labels, and a short-hand description of the type of variable is in the column: `dbl` means numeric, high precision; `ord` is an ordered categorical variable; `int` is a numeric that takes only integer values. Other possible types include `chr` is a text or categorical variable, `fctr` a special type of categorical variable with levels, `date` contains a date, and `lgl` means logical (`TRUE` or `FALSE`). 
+
+## Quiz
+
+Look at the data summary and answer these questions:
+
+```{r datatypes}
+quiz(
+  question("What type of variable is carat?",
+    answer("dbl", correct = TRUE),
+    answer("int"),
+    answer("ord"),
+    answer("chr")
+  ),
+  question("What type of variable is cut?",
+    answer("dbl"),
+    answer("int"),
+    answer("ord", correct = TRUE),
+    answer("chr")
+    ),
+  question("What type of variable is price?",
+    answer("dbl"),
+    answer("int", correct = TRUE),
+    answer("ord"),
+    answer("chr")
+    )
+)
+```
+
+## Back to tibbles and matrices
+
+The whole data set, diamonds is what the tidyverse calls a `tibble`. Tibble is a play on the word table! But it means data in a rectangular format, where there may be different types of variables (numeric, categorical, dates, ...) in different columns. A tibble is a special case of a `data.frame`. You can check the type of data object with a query:
+
+```{r echo=TRUE}
+is_tibble(diamonds)
+is.data.frame(diamonds)
+is.matrix(diamonds)
+```
+
+*Aside: The tidyverse tends to use `_` in its function names. Older parts of R tend to use `.` to separate words in function names.*
+
+So diamonds is a tibble and a data.frame, but it is not a matrix. 
+
+When you simulated the sample from a normal model, 
+
+```{r echo=TRUE}
+x <- rnorm(100)
+is_tibble(x)
+is.data.frame(x)
+is.matrix(x)
+is.vector(x)
+```
+
+you created a `vector`. A vector is a column of numbers, and a `matrix` is a rectangular format of data, like a tibble, it has variables in columns, but it can only contain numeric values. 
+
+Knowing the data type, is important because some functions expect one sort of data and can throw an error if it gets something different. You can convert data objects between types. 
+
+A good resource on learning more about the `tidyverse` is the book "R for Data Science" by Garret Grolemund and Hadley Wickham. [You can read it free online.](http://r4ds.had.co.nz/)
+
+## YOUR TURN: Tidy data verbs
+
+With your group read sections 12.1-12.3 of [R for Data Science](http://r4ds.had.co.nz/tidy-data.html). Then answer these questions:
+
+```{r tidydata}
+quiz(
+  question("What the three interrelated rules which make a dataset tidy?",
+    answer("Each variable must have its own column.", correct = TRUE),
+    answer("Each observation must have its own row.", correct = TRUE),
+    answer("Each value must have its own cell.", correct = TRUE),
+    answer("None of these")
+  ),
+  question("A common problem is a dataset where some of the column names are not names of variables, but values of a variable. What verb does an action which organises those columns into a new pair of variables?",
+    answer("gather", correct = TRUE),
+    answer("spread"),
+    answer("mutate"),
+    answer("select")
+    ),
+  question("What verb does the opposite to gather?",
+    answer("gather"),
+    answer("spread", correct = TRUE),
+    answer("mutate"),
+    answer("select")
+    ) 
+)
+```
+
+## Wrangling verbs
+
+The vast majority of data cleaning tasks can be handled with five verbs:
+
+- `filter()` Pick observations by their values.
+- `arrange()` Reorder the rows.
+- `select()` Pick variables by their names.
+- `mutate()` Create new variables with functions of existing variables.
+- `summarise()` Collapse many values down to a single summary.
+
+Oh, and if you use the pipe, `%>%`, you can string several of these actions together to make a data pipeline.
+
+You can find a data wrangling cheatsheet [here](https://github.com/rstudio/cheatsheets/raw/master/source/pdfs/data-transformation-cheatsheet.pdf).
+
+## Filter
+
+Filter is used to pick some cases or observations in the data. Here's an example for the diamonds data. We will choose just diamonds with a `Fair` cut. And to save printing all this to screen, we will check how many diamonds fall into this group.
+
+```{r echo=TRUE}
+diamonds %>% filter(cut == "Fair") %>% tally()
+```
+
+*Try it!* Do these exercises:
+
+- Filter the diamonds data to pick only diamonds that cost less than $400
+- Filter diamonds with a Fair cut and cost less than $400
+- Filter the diamonds that have cut "Fair" or "Good" (HINT: You need to use the operator `%in%` like this `%in% c("Fair","Good"))`
+
+```{r filter, exercise=TRUE}
+
+```
+
+## Select
+
+Select is used to pick some variables in the data. Here's an example for the diamonds data. We will select just the variables carat and price, thinking that we might make a model for price built on the size of the diamond.
+
+```{r echo=TRUE}
+diamonds %>% select(carat, price) 
+```
+
+*Try it!* Select the variables `x`, `y`, `z`
+
+
+```{r select, exercise=TRUE}
+
+```
+
+## Arrange
+
+Arrange sorts the data by values in one of the columns. Here's an example which also involves selecting a subset of variables.
+
+
+```{r echo=TRUE}
+diamonds %>% select(carat, price) %>%
+  arrange(desc(price))
+```
+
+Note that `desc` arranges in descending order. 
+
+*Try it!* Arrange carat by price, in increasing order.
+
+
+```{r arrange, exercise=TRUE}
+
+```
+
+Arrange is mostly used to get quick views of the numbers.
+
+## Mutate
+
+I love the name mutate! It means to create new variables, or modify existing ones. For the diamonds, we might be interested in examining the price per carat of a diamond. Here's how we can create this variable:
+
+```{r echo=TRUE}
+diamonds %>% mutate(ppc = price/carat)
+```
+
+*Try it!* Compute a new variable called size, based on a volume as measured by `x`, `y`, `z`. Is it the same or different from carat?
+
+
+```{r mutate, exercise=TRUE}
+
+```
+
+## Summarise
+
+Summarise is the workhorse function. It takes columns of the data, and reduces them to single numbers. It most useful when we want to compute statistics for subsets of the data.  For the diamonds, we might be interested in computing the mean and standard deviation price of price. 
+
+```{r echo=TRUE}
+diamonds %>% summarise(m=mean(price, na.rm=TRUE), 
+                       s=sd(price, na.rm=TRUE))
+```
+
+Price might be dependent on the color of the diamond, so we can compute this separately for each of the color categories. Which  color is the most expensive?
+
+```{r echo=TRUE}
+diamonds %>% group_by(color) %>%
+  summarise(m=mean(price, na.rm=TRUE), 
+                       s=sd(price, na.rm=TRUE))
+```
+
+*Try it!* Compute the mean and standard deviation for (a) the cut, (b) clarity of diamond.
+
+```{r summarise, exercise=TRUE}
+
+```
+
+## Grammar of graphics
+
+The grammar of graphics is a language that maps variables into graphical elements. Instead of uniquely naming specialist plots, like barchart, pie chart, histogram ... it provides the description of a plot, that enables comparing how they are similar and different. It gives us a more formal, and yes, mathematical way to make data plots. 
+The grammar of graphics has these major elements:
+
+```
+ggplot(data = <DATA>) + 
+  <GEOM_FUNCTION>(
+     mapping = aes(<MAPPINGS>),
+     stat = <STAT>, 
+     position = <POSITION>
+  ) +
+  <COORDINATE_FUNCTION> +
+  <FACET_FUNCTION>
+```
+  
+- DATA: This is the data.frame or tibble that you are starting from
+- MAPPINGS: Specific details of how a variable is mapped into the plot
+- GEOM: The graphical element to use, e.g. point, line, rectangle, density, boxplot, ...
+- STAT: A statistical calculation, if necessary, e.g. bin to make a histogram or barchart.
+- POSITION: Some types of plots, like barcharts conventionally have small deviations in design, like stacked, side-by-side, 100%. Position enables this type of shift.
+- COORDINATE: Most commonly we are using cartesian coordinates, but some plots benefit by putting them in polar coordinates, or even in a special map ratio, or some variables shown on a log scale.
+- FACET: Split the data into subsets and plot separately. Good for making comparisons across groups. 
+
+Here are some examples. We will use with a smaller subset of the diamonds for efficiency.
+
+```{r echo=TRUE}
+diamonds_small <- diamonds %>% sample_n(1000)
+ggplot(diamonds_small) +
+  geom_point(aes(x=carat, y=price))
+```
+
+This is a scatterplot of price by carat. There is a hint in the plot that carat tends to fall along some standard values, e.g. 1, 1.5, ... There are more small diamonds than larger ones - we would describe carat as right-skewed. Price is also right-skewed, as there are many more low prices diamonds than expensive ones. 
+
+```{r echo=TRUE}
+ggplot(diamonds_small) +
+  geom_bar(aes(x=cut))
+```
+
+This is a barchart of cut of the diamond. We can see that most diamonds have an "Ideal" cut, and there are very few "Fair" cut diamonds.
+
+```{r echo=TRUE}
+ggplot(diamonds_small) +
+  geom_point(aes(x=carat, y=price, colour=cut))
+```
+
+This is a scatterplot of price by carat, where points are coloured by the cut of the diamond. It is hard to see much difference in price between the cuts, there's a lot of overlap. It can be helpful to focus the view to display a model fit, instead of (or with) the points. 
+
+```{r echo=TRUE}
+ggplot(diamonds_small) +
+  geom_smooth(aes(x=carat, y=price, colour=cut), se=FALSE)
+```
+
+There's really not much difference, at least for this subset. Maybe the Ideal cut has very slightly higher relative price.
+
+Let's now look at two categorical variables. We examine cut and clarity. (Note that with a barchart, we need to use `fill` rather than `colour` to paint in the bars.)
+
+```{r echo=TRUE}
+ggplot(diamonds_small) +
+  geom_bar(aes(x=cut, fill=clarity))
+```
+
+To examine the association between two categorical variables, it can be better to focus on proportions, rather than counts. The counts in the different cut categories are very different, and its hard to be able to say that the proportion of the clarity categories are the same or different in each bar. Here's where position helps:
+
+```{r echo=TRUE}
+ggplot(diamonds_small) +
+  geom_bar(aes(x=cut, fill=clarity), position="fill")
+```
+
+Now we can see that there are differences in the clarity for different cuts. The Ideal cut tends not to have I1 clarity diamonds, and the Fair cut diamonds tend not to have any IF clarity diamonds. 
+
+*Try it!* Change the position to be `dodge`, and see what type of plot is created.
+
+```{r dodge, exercise=TRUE}
+
+```
+
+Its also possible to make separate plots for each of the clarity categories, using facet:
+
+```{r echo=TRUE}
+ggplot(diamonds_small) +
+  geom_bar(aes(x=cut, fill=clarity)) +
+  facet_wrap(~clarity, ncol=4, scales="free_x") +
+  coord_flip() + theme(legend.position="bottom")
+```
+
+Now we can see the the distribution of cuts is different in the l1 and SI2 clarity categories, but fairly similar in the others. The IF clarity group is almost exclusively Ideal cut. 
+
+When you have a categorical variable, and a quantitative variable, a good type of display is the side-by-side boxplot. Let's look at price by cut.
+
+```{r echo=TRUE}
+ggplot(diamonds_small) +
+  geom_boxplot(aes(x=cut, y=price, fill=cut))
+```
+
+We can see that the Fair cut diamonds tend to be slightly more expensive. 
+
+```{r boxplot}
+quiz(
+  question("In a boxplot what does the line in the middle of the box represent?",
+    answer("median", correct = TRUE),
+    answer("mean"),
+    answer("standard deviation"),
+    answer("Interquartile range")
+  ),
+  question("In a boxplot what does the box represent?",
+    answer("median"),
+    answer("mean"),
+    answer("standard deviation"),
+    answer("interquartile range", correct = TRUE)
+  )
+)
+```
+
+*Try it!* Examine the side-by-side boxplot of price by clarity. Is there a difference in price across the different clarity groups? Also try out `geom_violin` instead of `geom_boxplot`. What does this do? 
+
+```{r violin, exercise=TRUE}
+
+```
+
+There is a chapter on visualisation in [R for Data Science](http://r4ds.had.co.nz/data-visualisation.html) with lots of examples. If you have time, take a skim through this and try out some of the ideas. There is also a [graphics cheatsheet](https://www.rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf) that can be useful to learn about all sorts of geoms, options, transformations, themes, ...
+
+## YOUR TURN: PISA data
+
+Every three years the OECD conducts tests of workforce readiness on around 500,000 15 year olds world wide. The last test's were done in 2015, and the next will be conducted next year. Details about the tests can be found by going to the [OECD PISA website](http://www.oecd.org/pisa). 
+
+*If you click on the `PISA Test` link you will be able to test out your skills. Try it!* 
+
+*How well did you do?*
+
+## Student results
+
+The data from the 2015 results can be downloaded from the `Data` [link](http://www.oecd.org/pisa/data/2015database/). There are multiple data sets, but the one that we will use for this workshop is the student database. We have downloaded this data, and extracted the results for Australia, for you, so you don't need to do this. But you need to understand what is in the database. The student database has test scores for 14,530 Australian 15 year olds. The students were tested on math, science and reading, and there were special topics in science that were tested in that year. In addition, students completed a survey to provide information on their household (how many TVs, books, ...), their gender, and birth year, how supportive their parents are, what their friends like to do, how much time do they spend studying out of hours, and about their attitudes to school, subjects, and teachers. Overall, there are 921 variables!! In the subset we have made there are 44 of these variables. 
+
+Other tables available to download contain survey responses to questionnaires provided to the school principal, and sent home to parents. We won't be working with this information today.
+
+```{r pisa}
+quiz(
+  question("What age are the students that take the test?",
+    answer("12"),
+    answer("15", correct = TRUE),
+    answer("18"),
+    answer("21")
+  ),
+  question("How many students in Australia were tested in 2015",
+    answer("530"),
+    answer("1,453"),
+    answer("14,530", correct = TRUE),
+    answer("145,300")
+    ),
+  question("What subjects are tested?",
+    answer("math", correct = TRUE),
+    answer("science", correct = TRUE),
+    answer("reading", correct = TRUE),
+    answer("writing")
+    ) 
+)
+```
+
+## Building a web story 
+
+To make it easier for others to explore a data set, now that you can be an expert(!), we can put it into a web document, called a flexdashboard. You can learn more about them at the RStudio Rmarkdown flexdashboards [tutorial](http://rmarkdown.rstudio.com/flexdashboard/using.html). 
+
+And you can see the example one that we have built, by opening the file `pisa.Rmd` in your RStudio window. Click `Run document` and the app will run on your computer. Alternatively, you can view it by pointing your web browser to [https://visnut.shinyapps.io/pisa/](https://visnut.shinyapps.io/pisa/). Here's what you will see:
+
+![](images/fdb1.png)
+![](images/fdb2.png)
+
+Flexdashboards are written in Rmarkdown. Its a really simple typesetting language, and you should only need to know three things:
+
+- At the very top of the file there is a paragraph starting and ending with `---`. This sets up the heading of the document, and formatting options.
+- `###` Makes a heading in the document
+- The lines between ` ```{r}` and ` ``` ` are lines of R code, that are run when the document is compiled.
+
+There is an Rmarkdown cheatsheet [here](https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf)
+
+The rest of the flexdashboard is contructed using some special user interface items, e.g. 
+
+- `sidebarPanel()` sets up the items on the left of the window where users can choose parameters for the plots. 
+- `fillRow` does some sizing of the components on the window
+- `plotlyOutput` tells the app that we want to use interactive graphics, it takes the ggplot2 plot and uses the `plotly` package to make it interactive.
+
+Read through the flex dashboards [tutorial](http://rmarkdown.rstudio.com/flexdashboard/using.html) and familiarise yourself with some of the ways that an app can be modified, and constructed. The `pisa.Rmd` file has 72 lines to produce a pretty flexible interface to the PISA data.
+
+## Goal for the day
+
+*The task for the rest of the day is to enhance the app that we have started. Add more features, change the plots, add more data, ... the choice is up to you. Come up with something that you think your friends, teachers or parents might like to explore about the PISA data.*
+
+At the end of the day, we will have presentations from each group about your app. 
+
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
