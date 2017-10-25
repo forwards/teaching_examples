@@ -5,6 +5,8 @@ output:
     orientation: columns
     social: menu
     source_code: embed
+    includes:
+      before_body: header.html
 runtime: shiny
 ---
 
@@ -38,7 +40,8 @@ fillRow(height = 600, flex = c(2, 4),
 
 output$boxplots <- renderPlotly({
   p1 <- ggplot(pisa_au, aes_string(x = input$x, y = input$y)) +
-    geom_boxplot()
+    geom_boxplot() +
+    ggtitle("Test")
   
   if (input$color != 'None')
     p1 <- p1 + aes_string(fill = input$color)
