@@ -29,6 +29,14 @@ Hey math boffins, welcome to the coding with R class! Let me introduce you to ou
 
 *Tell us about your choice of team name, and something about each member*
 
+## How's the day planned
+
+- There will be a little bit of instruction, and a few exercises, then some more instruction, and some more exercises, some reading, some more exercises, ...
+- The goal for the day is to work with your team and mentor to make a web app for looking at data.
+- We are going to learn about the software R, and the language of data analysis. There's a lot of things to learn. Its ok if you can't remember it all. Most important thing is to have fun and play, break things and fix them, try out new stuff!
+- We will have breaks whenever you feel you want them - there are lamingtons and cupcakes for morning and afternoon tea. And we are planning to order pizza for lunch unless there is a better idea.
+
+*These notes can be found at https://dicook.shinyapps.io/bilby_tutorial/ * and example web apps can be found at https://dicook.shinyapps.io/pisa/ and https://dicook.shinyapps.io/pisa_world/. 
 
 ## Let's get started learning R! 
 

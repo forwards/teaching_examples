@@ -16,8 +16,8 @@ library(ISOcodes)
 data("ISO_3166_1")
 pisa_gap <- read_csv("pisa_gap.csv")
 pisa_gap <- pisa_gap %>%
-  mutate(Name = fct_reorder(Name, wmathgap)) %>%
-  mutate(direction=ifelse(wmathgap>0, "boys", "girls"))
+  mutate(Name = fct_reorder(Name, mathgap)) %>%
+  mutate(direction=ifelse(mathgap>0, "boys", "girls"))
 world_map <- map_data("world")
 
 pisa_gap <- pisa_gap %>%
@@ -34,9 +34,9 @@ pisa_gap <- pisa_gap %>%
 world_map$region[world_map$subregion == "Hong Kong"] <- "Hong Kong"
 world_map$region[world_map$subregion == "Macao"] <- "Macao"
 to_map <- left_join(world_map, pisa_gap, by=c("region"="Name"))
-realvars <- c("wmath_m", "wmath_f", "wread_m", "wread_f",
-              "wscience_m", "wscience_f",
-              "wmathgap", "wreadgap", "wsciegap")
+realvars <- c("math_m", "math_f", "read_m", "read_f",
+              "science_m", "science_f",
+              "mathgap", "readgap", "sciencegap")
 
 library(shiny)
 library(viridis)
