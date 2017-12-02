@@ -16,16 +16,16 @@ tutorial_html_dependency()
 
 ## Welcome!
 
-Hey math boffins, welcome to the coding with R class! Let me introduce you to our team:
+Hi, Kia ora, boffins! Welcome to the coding with R class! Let me introduce you to our team:
 
-- Hi, I'm Di! A professor at Monash University, and I can make pictures of things that live in high dimensions, that's more than 3D. 
-- This is Earo! She's a PhD student in econometrics and business statistics at Monash University, and plots of data on a calendar. 
-- This is Thiyanga! She's a PhD student in econometrics and business statistics at Monash University, and an expert in random forests. What's a random forest, you ask? Just ask, it is related to trees.
-- This is Dilini! She's also a PhD student in econometrics and business statistics at Monash University, and she's working on intruder detection.
+- Hi, I'm Di! A professor at Monash University in Melbourne Australia, and I like to play all sorts of sports, tennis, soccer, hockey, cricket, and go boogie boarding.
+- This is Jenny! Jenny is a professor at the University of British Columbia in Canada, and a data scientist at RStudio. Jenny has three sons, who could be mistaken for the Weasley boys. 
+- This is Hadley! He is the chief scientist at RStudio. He built the tidyverse, that we will use today. Oh, and he grew up in New Zealand, and loves cooking.
+- 
 
 ### Exercise 
 
-*Introduce yourself to the other members of your team, and brainstorm a team name. You've got five minutes!* 
+*Introduce yourself to the other members of your team, and brainstorm a team name.* 
 
 *Tell us about your choice of team name, and something about each member*
 
@@ -34,7 +34,7 @@ Hey math boffins, welcome to the coding with R class! Let me introduce you to ou
 - There will be a little bit of instruction, and a few exercises, then some more instruction, and some more exercises, some reading, some more exercises, ...
 - The goal for the day is to work with your team and mentor to make a web app for looking at data.
 - We are going to learn about the software R, and the language of data analysis. There's a lot of things to learn. Its ok if you can't remember it all. Most important thing is to have fun and play, break things and fix them, try out new stuff!
-- We will have breaks whenever you feel you want them - there are lamingtons and cupcakes for morning and afternoon tea. And we are planning to order pizza for lunch unless there is a better idea.
+- We will have breaks whenever you feel you want them - there are goodies for morning, afternoon tea, and lunch.
 
 CODE of CONDUCT:
 
@@ -45,7 +45,7 @@ CODE of CONDUCT:
 
 MATERIALS for WORKSHOP:
 
-*These notes can be found at https://dicook.shinyapps.io/bilby_tutorial/ * and example web apps can be found at https://dicook.shinyapps.io/pisa/ and https://dicook.shinyapps.io/pisa_world/. 
+*These notes can be found at https://ebsmonash.shinyapps.io/kea_tutorial/ * and example web apps can be found at https://ebsmonash.shinyapps.io/pisa/ and https://ebsmonash.shinyapps.io/pisa_world/. 
 
 ## Let's get started learning R! 
 
@@ -512,7 +512,7 @@ Every three years the OECD conducts tests of workforce readiness on around 500,0
 
 ## Student results
 
-The data from the 2015 results can be downloaded from the `Data` [link](http://www.oecd.org/pisa/data/2015database/). There are multiple data sets, but the one that we will use for this workshop is the student database. We have downloaded this data, and extracted the results for Australia, for you, so you don't need to do this. But you need to understand what is in the database. The student database has test scores for 14,530 Australian 15 year olds. The students were tested on math, science and reading, and there were special topics in science that were tested in that year. In addition, students completed a survey to provide information on their household (how many TVs, books, ...), their gender, and birth year, how supportive their parents are, what their friends like to do, how much time do they spend studying out of hours, and about their attitudes to school, subjects, and teachers. Overall, there are 921 variables!! In the subset we have made there are 44 of these variables. 
+The data from the 2015 results can be downloaded from the `Data` [link](http://www.oecd.org/pisa/data/2015database/). There are multiple data sets, but the one that we will use for this workshop is the student database. We have downloaded this data, and extracted the results for New Zealand, for you, so you don't need to do this. But you need to understand what is in the database. The student database has test scores for 4,520 New Zealand 15 year olds. The students were tested on math, science and reading, and there were special topics in science that were tested in that year. In addition, students completed a survey to provide information on their household (how many TVs, books, ...), their gender, and birth year, how supportive their parents are, what their friends like to do, how much time do they spend studying out of hours, and about their attitudes to school, subjects, and teachers. Overall, there are 921 variables!! In the subset we have made there are 44 of these variables. 
 
 Other tables available to download contain survey responses to questionnaires provided to the school principal, and sent home to parents. We won't be working with this information today.
 
@@ -524,11 +524,11 @@ quiz(
     answer("18"),
     answer("21")
   ),
-  question("How many students in Australia were tested in 2015",
-    answer("530"),
-    answer("1,453"),
-    answer("14,530", correct = TRUE),
-    answer("145,300")
+  question("How many students in New Zealand were tested in 2015",
+    answer("452"),
+    answer("4,520", correct = TRUE),
+    answer("14,520"),
+    answer("145,200")
     ),
   question("What subjects are tested?",
     answer("math", correct = TRUE),

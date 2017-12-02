@@ -1,4 +1,4 @@
 .tutorialTitle:before {
-  content: url("../images/forwards.png") url("../images/rladies.png");
+  content: url("../images/forwards.png");
   display: block;
 }
