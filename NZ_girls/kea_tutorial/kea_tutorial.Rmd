@@ -21,7 +21,7 @@ Hi, Kia ora, boffins! Welcome to the coding with R class! Let me introduce you t
 - Hi, I'm Di! A professor at Monash University in Melbourne Australia, and I like to play all sorts of sports, tennis, soccer, hockey, cricket, and go boogie boarding.
 - This is Jenny! Jenny is a professor at the University of British Columbia in Canada, and a data scientist at RStudio. Jenny has three sons, who could be mistaken for the Weasley boys. 
 - This is Hadley! He is the chief scientist at RStudio. He built the tidyverse, that we will use today. Oh, and he grew up in New Zealand, and loves cooking.
-- 
+- This is Shan-I! Shan-I has lived in Ghana, and taught high school math in New Zealand, and has just finished honours in the Statistics department here.
 
 ### Exercise 
 
