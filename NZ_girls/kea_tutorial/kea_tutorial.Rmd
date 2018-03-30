@@ -543,7 +543,7 @@ quiz(
 
 To make it easier for others to explore a data set, now that you can be an expert(!), we can put it into a web document, called a flexdashboard. You can learn more about them at the RStudio Rmarkdown flexdashboards [tutorial](http://rmarkdown.rstudio.com/flexdashboard/using.html). 
 
-And you can see the example one that we have built, by opening the file `pisa.Rmd` in your RStudio window. Click `Run document` and the app will run on your computer. Alternatively, you can view it by pointing your web browser to [https://visnut.shinyapps.io/pisa/](https://visnut.shinyapps.io/pisa/). Here's what you will see:
+And you can see the example one that we have built, by opening the file `pisa.Rmd` in your RStudio window. Click `Run document` and the app will run on your computer. Alternatively, you can view it by pointing your web browser to [https://ebsmonash.shinyapps.io/pisa/](https://ebsmonash.shinyapps.io/pisa/). Here's what you will see:
 
 ![](images/fdb1.png)
 ![](images/fdb2.png)
@@ -567,6 +567,8 @@ Read through the flex dashboards [tutorial](http://rmarkdown.rstudio.com/flexdas
 ## Goal for the day
 
 *The task for the rest of the day is to enhance the app that we have started. Add more features, change the plots, add more data, ... the choice is up to you. Come up with something that you think your friends, teachers or parents might like to explore about the PISA data.*
+
+The code and data can be downloaded from [https://github.com/dicook/NZ_girls](https://github.com/dicook/NZ_girls).
 
 At the end of the day, we will have presentations from each group about your app. 
 
