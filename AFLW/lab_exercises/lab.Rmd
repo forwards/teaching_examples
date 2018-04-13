@@ -1,0 +1,149 @@
+---
+title: "BDCD Business Analytics Lab exercise"
+author: "Prof Di Cook, with Steph Kobakian, Stuart Lee, Mitch O'Hara-Wild"
+date: "Econometrics & Bus Stat, Monash, Clayton campus, 5/4/2018"
+output:
+  tufte::tufte_html: default
+  tufte::tufte_handout:
+    citation_package: natbib
+    latex_engine: xelatex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  error = FALSE)
+```
+
+## Motivation
+
+Business analytics involves mathematics and computing. This lab exercise has a little of both. For the coding part, you will want to copy, pull apart and put together again. 
+
+Sports provide a lot of statistics about players and teams. In this exercise we are going to look at the statistics collected for the Women's Australian Rules Football leagues over the past two years. We have stats for players and for teams. These are averages across all the games: Kicks, Handballs, Dispatch efficiency (%), Marks, Frees_Agst, Goals, Behinds, Goal_assists, Time_On_Ground. 
+
+Materials for the workshop can be downloaded from [https://github.com/BDCD18/BusAn](https://github.com/BDCD18/BusAn).
+
+Data collected from [http://www.afl.com.au/womens/matches/stats](http://www.afl.com.au/womens/matches/stats).
+
+## Exercise 1: Background work
+
+Find the web site for the competition, to determine the answers for these questions.
+
+1. What team won the competition in 2017, and 2018? Who were the runners-up in each year?
+2. What players were awarded best and fairest in each year?
+
+```{r fig.margin=TRUE, fig.width=3.5, fig.height=7}
+library(tidyverse)
+players <- read_csv("AFLW/data/players.csv")
+ggplot(players, aes(x=Kicks, y=Disp_eff)) + 
+  geom_point() + 
+  facet_wrap(~Year, ncol=1) + 
+  theme(aspect.ratio=1) +
+  xlab("Av Kicks/Game") +
+  ylab("% Dispatch Efficiency")
+```
+
+## Exercise 2: Explore the data
+
+1. We have written a web app, using R, that you can access by 
+- open the R project "AFLW"
+- open the file "app.R"
+- Click "Run App"
+2. 
+    a. Which player had the highest average kicks in 2017? 2018?
+    b. Is the player who has the most kicks, also good at dispatching the ball? Name a few of the players who managed to dispatch 100% of the time, and also the ones who never manage to dispatch the ball. 
+    c. What was the highest average number of goals by a player in both seasons? Who achieved this? Is this different from the player with the most kicks? How?
+
+
+```{r fig.margin=TRUE, fig.width=3.5, fig.height=3.5}
+players <- players %>% mutate(GWS = ifelse(Club == "GWS", "yes", "no"))
+players_sel <- players %>% filter(Year == "2018") %>%
+  filter(Player %in% c("Alicia Eva", "Jessica Dal Pos"))
+ggplot(filter(players, Year == "2018"), aes(x=Kicks, y=Disp_eff, colour=GWS)) + 
+  geom_point() + 
+  theme(aspect.ratio=1, legend.position = "none") +
+  xlab("Av Kicks/Game") +
+  ylab("% Dispatch Efficiency") + 
+  geom_label(data=players_sel, aes(label = Player), 
+             vjust="top", hjust="right", alpha=0.6) + 
+  scale_colour_brewer(palette="Dark2")
+```
+
+## Exercise 3: Checking the news
+
+1. The news article [AFL's edict to women players: make the game more entertaining](https://www.theaustralian.com.au/sport/afl/afls-edict-to-women-players-make-the-game-more-entertaining/news-story/44e9b896759ca76edf166b38499d149d) suggests that the organisers felt the games were too low scoring in the first season. 
+    a. Has this changed in season 2? 
+    b.  Make a plot of goals vs kicks to help to answer this question.
+
+2. [AFLW best and fairest: AFL rejects claim that votes were awarded to wrong player](https://www.foxsports.com.au/afl/womens-afl/aflw-best-and-fairest-afl-rejects-claim-that-votes-were-awarded-to-wrong-player/news-story/c0ae1205ccfecc7481dcf4edc45ed692) 
+    a. What two players are mentioned in the article? 
+    b. Colour the team discussed in the article.
+    c. Does the data suggest that if one of these players got votes, it was a mistake? And that they should have gone to the other player? If so, why?
+
+```{r fig.margin=TRUE, fig.width=3.5, fig.height=7}
+players_sub17 <- players %>%
+       filter(Year == "2017") 
+players_sub18 <- players %>%
+       filter(Year == "2018") 
+players_sub_mat17 <- as.matrix(players_sub17[,4:12])
+players_sub_mat17 <- apply(players_sub_mat17, 2, scale)
+players_sub_mat18 <- as.matrix(players_sub18[,4:12])
+players_sub_mat18 <- apply(players_sub_mat18, 2, scale)
+players_mds17 <- cmdscale(dist(players_sub_mat17), k=2)
+players_mds18 <- cmdscale(dist(players_sub_mat18), k=2)
+players_mds_df17 <- as_tibble(players_mds17)
+players_mds_df17$Player <- players$Player[players$Year == "2017"]
+players_mds_df17$Year <- "2017"
+players_mds_df18 <- as_tibble(players_mds18)
+players_mds_df18$Player <- players$Player[players$Year == "2018"]
+players_mds_df18$Year <- "2018"
+players_mds_df <- bind_rows(players_mds_df17, players_mds_df18)
+p1 <- players_mds_df %>% filter(Year == "2017", Player == "Erin Phillips")
+p2 <- players_mds_df %>% filter(Year == "2018", Player == "Emma Kearney")
+pl <- bind_rows(p1, p2)
+ggplot(players_mds_df, aes(x=V1, y=V2, label=Player)) + 
+  geom_point() + facet_wrap(~Year, scales="free", ncol=1) +
+  geom_point(data=pl, colour = "orange", size=2) +
+  geom_label(data=pl, aes(label = Player), 
+             vjust="top", hjust="left", alpha=0.6)
+```
+
+## Exercise 4: Similarity of players
+
+- Change the variables being combined to make the low-dimensional picture. Does the plot change? Explain why this happens based on the formulae given in the lecture notes.
+- Color the points by teams. Is there much difference between teams? If so, or if not, what does this mean?
+- Find the most valuable player awardee in each year, and look at the nearest neighbours of those players. Were they also nominees for the award?
+
+```{r fig.margin=TRUE, fig.width=3.5, fig.height=7}
+library(forcats)
+ggplot(players, aes(x=fct_relevel(Club, c("COLL", "CARL", "ADEL", "MELB", "WB", "BL", "FRE", "GWS")), y=Kicks)) + 
+  geom_boxplot() +
+  facet_wrap(~Year, ncol=1) + xlab("Club")
+```
+
+## Exercise 5: Your turn to code
+
+1. Easy tasks: 
+    a. Change the title from "Exploring the AFLW statistics" to "Women's AFL Statistics Exploration"
+    b. Change the label of tab 1 from "Data" to "Basic plots"
+2. Medium task: 
+    a. Change the tab 2 title to "Boxplots"
+    b. Remove the "X" variable input menu
+    c. Change the type of plot on tab 1 to be a side-by-side boxplot of the statistic by Club. 
+3. Difficult: Make a new app to study the similarity of the teams. The steps to do this are:
+    a. Copy and paste the entire directory code for the "AFLW" app. Rename it. 
+    b. Read in the teams data, and pass this into the analysis functions.  
+    c. Change quite a few things: the list of variables to use for the MDS, name of the tab, label by Club instead of Player, .... 
+
+With your new app, using ONLY this set of statistics Kicks, Handballs, Dispatch efficiency, Frees for and against, Goals and Behinds, which teams are most similar based on being close together in the MDS plot? Which are very different from each other?
+
+## Turn in
+
+Each group needs to provide to the instructor:
+
+1. A document with answers to each of the questions
+2. A copy of your app code
+3. A presentation slide with a plot of the data, and a sentence about what you've learned about women's AFL. (HINT: This part will have the most points for judging the best team, so be creative and informative.)
+
