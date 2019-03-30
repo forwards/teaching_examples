@@ -1,3 +1,9 @@
+# Notes on the workshop examples
+
+- Brissy_girls workshop uses data on wildlife spotted around Brisbane. The tutorial can be viewed by going to https://ebsmonash.shinyapps.io/sunny_tutorial/, and two apps produced during the workshop are at https://ebsmonash.shinyapps.io/Claudia_brissy_wildlife/ (looks at seasonal appearance of wildlife), and https://ebsmonash.shinyapps.io/Rachel_brissy_wildlife/ (makes it possible to compare two species occurrences)
+- The NZ girls workshop focuses on an app for analysing the PISA test data, the tutorial can be viewed at https://ebsmonash.shinyapps.io/kea_tutorial/
+- More workshop materials for high school students is available at https://github.com/Monash-BDCD, with data on an individual's household energy consumption in Melbourne, and another examining AFLW statistics.
+
 # Teaching examples
 
 We wish to provide a resource enabling more diverse and inclusive examples to be used in teaching R. Often examples are based on subjects that tend to be more appealing to men (men's sport, cars, finance) or have a US/Western bias (politics, movies/pop songs). While such examples may still be interesting to people that don't usually think much about these things, more diverse and inclusive examples will help to engage a wider set of people.
