@@ -34,6 +34,8 @@ Examples beyond topics that tend to be more appealing to men, or assume a certai
 - [Humanitarian data exchange](https://data.humdata.org).
 - [WomenStats](http://www.womanstats.org).
 - [USDA Economic Research Data](https://www.ers.usda.gov/data-products)
+- [World Bank's "Women in Parliament" Data ](https://https://github.com/saghirb/Women-in-Parliament-Hex-Sticker)
+
 
 ### Environmental Data - can be linked to social issues
 
