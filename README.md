@@ -26,7 +26,7 @@ Examples beyond topics that tend to be more appealing to men, or assume a certai
 
 - [RGB values of 20x20 pixel images of Bob Ross-style paintings](https://github.com/sctyner/joy-of-clustering/blob/master/clean_paint_data.csv)
 - [Best in Show - what's the top data dog?](http://www.informationisbeautiful.net/visualizations/best-in-show-whats-the-top-data-dog/) looking at a score based on dog characteristics vs dog popularity. Google Sheet with all variables underlying score. From Information is Beautiful; other nice examples are [Mountains out of Molehills - media inflamed fears](http://www.informationisbeautiful.net/visualizations/mountains-out-of-molehills/), data from Google trends.
-- [Data Technologies boo](https://github.com/heike/data-technologies) early draft by Heike Hofmann and Di Cook has some different data examples.
+- [Data Technologies book](https://github.com/heike/data-technologies) early draft by Heike Hofmann and Di Cook has some different data examples.
 
 ### Examples on gender, inclusivity and humanitarian issues
 
