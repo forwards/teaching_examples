@@ -61,7 +61,7 @@ Ejemplos sobre cuestiones de género, inclusión y humanitarias
 - [Humanitarian data exchange](https://data.humdata.org).
 - [WomenStats](http://www.womanstats.org).
 - [USDA Economic Research Data](https://www.ers.usda.gov/data-products)
-- [World Bank's "Women in Parliament" Data ](https://https://github.com/saghirb/Women-in-Parliament-Hex-Sticker)
+- [World Bank's "Women in Parliament" Data](https://github.com/saghirb/Women-in-Parliament-Hex-Sticker)
 - [forwards R package](https://cran.r-project.org/web/packages/forwards/index.html) -- anonymized data from surveys conducted by Forwards
 
 
